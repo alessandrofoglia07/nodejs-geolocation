@@ -1,0 +1,23 @@
+{
+    "name": "nodejs-geolocation",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "t": "jest"
+    },
+    "author": "Alexxino",
+    "files": [
+        "/dist"
+    ],
+    "devDependencies": {
+        "@types/jest": "^29.5.3",
+        "jest": "^29.6.1",
+        "ts-jest": "^29.1.1"
+    },
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "node-ipinfo": "^3.4.2"
+    }
+}
