@@ -1,3 +1,4 @@
+import IPinfoWrapper from "node-ipinfo";
 import { GeolocationData } from "./types";
 /**
  * Get geolocation from ip address
@@ -5,4 +6,4 @@ import { GeolocationData } from "./types";
  * @returns Geolocation object
  * @example getGeolocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
  */
-export declare const getGeolocation: (ip: string) => Promise<GeolocationData>;
+export declare const getGeolocation: (ip: string, ipinfo: IPinfoWrapper) => Promise<GeolocationData>;

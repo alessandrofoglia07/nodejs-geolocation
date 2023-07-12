@@ -1,1 +1,1 @@
-export { getGeolocation } from './ipGeolocation';
+export {};
