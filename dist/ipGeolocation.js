@@ -17,6 +17,11 @@ exports.getGeolocation = void 0;
  * @example getGeolocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
  */
 const getGeolocation = (ip, ipinfo) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield ipinfo.lookupIp(ip);
+    try {
+        return yield ipinfo.lookupIp(ip);
+    }
+    catch (err) {
+        throw new Error(err);
+    }
 });
 exports.getGeolocation = getGeolocation;

@@ -16,13 +16,28 @@ const ipGeolocation_1 = require("./ipGeolocation");
 const node_ipinfo_1 = __importDefault(require("node-ipinfo"));
 class NodeGeolocation {
     constructor(key) {
-        this.key = '';
-        this.ipinfo = new node_ipinfo_1.default(this.key);
-        this.key = key;
+        this._key = '';
+        this._ipinfo = new node_ipinfo_1.default('');
+        this._key = key;
+        this._ipinfo = new node_ipinfo_1.default(this._key);
     }
+    set key(key) {
+        this._key = key;
+        this._ipinfo = new node_ipinfo_1.default(this._key);
+    }
+    get key() {
+        return this._key;
+    }
+    /**
+     * @IMPORTANT **You must set the api key before using this method**
+     * @description Get geolocation from ip address
+     * @param ip IP address to get geolocation from
+     * @returns Geolocation object
+     * @example NodeGeolocation.getLocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
+     */
     getLocation(ip) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, ipGeolocation_1.getGeolocation)(ip, this.ipinfo);
+            return yield (0, ipGeolocation_1.getGeolocation)(ip, this._ipinfo);
         });
     }
     ;

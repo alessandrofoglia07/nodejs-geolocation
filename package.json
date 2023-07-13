@@ -1,9 +1,27 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.0.2",
-    "description": "",
+    "version": "1.0.3",
+    "description": "NodeJS library that simplifies IP geolocation and related calculations.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "license": "MIT",
+    "keywords": [
+        "geolocation",
+        "geo",
+        "ip",
+        "location",
+        "node-geolocation",
+        "Node.js",
+        "library",
+        "npm",
+        "package",
+        "coordinates",
+        "latitude",
+        "longitude",
+        "GPS",
+        "distance",
+        "location-based services"
+    ],
     "scripts": {
         "test": "jest",
         "build": "tsc"

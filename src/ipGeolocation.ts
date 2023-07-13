@@ -8,5 +8,9 @@ import { GeolocationData } from "./types";
  * @example getGeolocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
  */
 export const getGeolocation = async (ip: string, ipinfo: IPinfoWrapper): Promise<GeolocationData> => {
-    return await ipinfo.lookupIp(ip);
+    try {
+        return await ipinfo.lookupIp(ip);
+    } catch (err: any) {
+        throw new Error(err);
+    }
 };
