@@ -12,15 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ipGeolocation_js_1 = require("./utils/ipGeolocation.js");
+const ipInfoGeolocation_js_1 = __importDefault(require("./utils/ipInfoGeolocation.js"));
+const ip2locationGeolocation_js_1 = __importDefault(require("./utils/ip2locationGeolocation.js"));
 const node_ipinfo_1 = __importDefault(require("node-ipinfo"));
 const distanceCalculation_js_1 = __importDefault(require("./utils/distanceCalculation.js"));
 class NodeGeolocation {
-    constructor(key) {
+    constructor(service, key) {
         this._key = '';
-        this._ipinfo = new node_ipinfo_1.default('');
-        this._key = key;
         this._ipinfo = new node_ipinfo_1.default(this._key);
+        this.service = 'ipinfo';
+        this.service = service;
+        this._key = key;
+        if (this.service === 'ipinfo') {
+            this._ipinfo = new node_ipinfo_1.default(this._key);
+        }
     }
     set key(key) {
         this._key = key;
@@ -30,7 +35,7 @@ class NodeGeolocation {
         return this._key;
     }
     /**
-     * @key **You must set an IpInfo api key before using this method**
+     * @key **You must set a service and an api key before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -38,7 +43,14 @@ class NodeGeolocation {
      */
     getLocation(ip) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, ipGeolocation_js_1.getGeolocation)(ip, this._ipinfo);
+            if (!this._key)
+                throw new Error('You must set a service and an api key before using this method');
+            if (this.service === 'ip2location') {
+                return yield (0, ip2locationGeolocation_js_1.default)(ip, this._key);
+            }
+            else if (this.service === 'ipinfo') {
+                return yield (0, ipInfoGeolocation_js_1.default)(ip, this._ipinfo);
+            }
         });
     }
     ;

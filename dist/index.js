@@ -7,15 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getGeolocation } from './utils/ipGeolocation.js';
+import getGeolocationIPInfo from './utils/ipInfoGeolocation.js';
+import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
 import IPinfoWrapper from 'node-ipinfo';
 import calculateDistance from './utils/distanceCalculation.js';
 class NodeGeolocation {
-    constructor(key) {
+    constructor(service, key) {
         this._key = '';
-        this._ipinfo = new IPinfoWrapper('');
-        this._key = key;
         this._ipinfo = new IPinfoWrapper(this._key);
+        this.service = 'ipinfo';
+        this.service = service;
+        this._key = key;
+        if (this.service === 'ipinfo') {
+            this._ipinfo = new IPinfoWrapper(this._key);
+        }
     }
     set key(key) {
         this._key = key;
@@ -25,7 +30,7 @@ class NodeGeolocation {
         return this._key;
     }
     /**
-     * @key **You must set an IpInfo api key before using this method**
+     * @key **You must set a service and an api key before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -33,7 +38,14 @@ class NodeGeolocation {
      */
     getLocation(ip) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield getGeolocation(ip, this._ipinfo);
+            if (!this._key)
+                throw new Error('You must set a service and an api key before using this method');
+            if (this.service === 'ip2location') {
+                return yield getGeolocationIP2Location(ip, this._key);
+            }
+            else if (this.service === 'ipinfo') {
+                return yield getGeolocationIPInfo(ip, this._ipinfo);
+            }
         });
     }
     ;

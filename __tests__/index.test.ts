@@ -1,46 +1,72 @@
 require('dotenv').config();
 import NodeGeolocation from '../dist/cjs/index.js';
 
-const { IPINFO_TOKEN, IPINFO_TESTIP } = process.env;
+const { IPINFO_KEY, TESTIP, IP2LOCATION_KEY } = process.env;
 
-if (!IPINFO_TOKEN || !IPINFO_TESTIP) {
-    throw new Error('Please set IPINFO_TOKEN and IPINFO_TESTIP in .env file');
+if (!IPINFO_KEY || !TESTIP || !IP2LOCATION_KEY) {
+    throw new Error('Please define IPINFO_KEY, TESTIP and IP2LOCATION_KEY in .env file to run tests');
 }
 
 test('NodeGeolocation should be defined', () => {
     expect(NodeGeolocation).toBeDefined();
-    expect(new NodeGeolocation('')).toBeDefined();
+    expect(new NodeGeolocation('ipinfo', '')).toBeDefined();
 });
 
-describe('NodeGeolocation should return geolocation data correctly', () => {
+describe('NodeGeolocation should return geolocation data correctly using IPInfo', () => {
     it('Should return geolocation data', async () => {
-        const geo = new NodeGeolocation(IPINFO_TOKEN);
-        const data = await geo.getLocation(IPINFO_TESTIP);
+        const geo = new NodeGeolocation('ipinfo', IPINFO_KEY);
+        const data = await geo.getLocation(TESTIP);
         expect(data).toBeDefined();
         if (data) {
-            expect(data.ip).toBe(IPINFO_TESTIP);
+            expect(data.ip).toBe(TESTIP);
         }
     });
 
     it('Should change api key with setter', async () => {
-        const geo = new NodeGeolocation('');
-        geo.key = IPINFO_TOKEN;
-        const data = await geo.getLocation(IPINFO_TESTIP);
+        const geo = new NodeGeolocation('ipinfo', '');
+        geo.key = IPINFO_KEY;
+        const data = await geo.getLocation(TESTIP);
         expect(data).toBeDefined();
         if (data) {
-            expect(data.ip).toBe(IPINFO_TESTIP);
+            expect(data.ip).toBe(TESTIP);
         }
     });
 
     it('Should throw error if api key is not valid', async () => {
-        const geo = new NodeGeolocation('invalid');
-        await expect(geo.getLocation(IPINFO_TESTIP)).rejects.toThrow();
+        const geo = new NodeGeolocation('ipinfo', 'invalid');
+        await expect(geo.getLocation(TESTIP)).rejects.toThrow();
+    });
+});
+
+describe('NodeGeolocation should return geolocation data correctly using IP2Location', () => {
+    it('Should return geolocation data', async () => {
+        const geo = new NodeGeolocation('ip2location', IP2LOCATION_KEY);
+        const data = await geo.getLocation(TESTIP);
+        expect(data).toBeDefined();
+        if (data) {
+            expect(data.ip).toBe(TESTIP);
+        }
+    });
+
+    it('Should change api key with setter', async () => {
+        const geo = new NodeGeolocation('ip2location', '');
+        geo.key = IP2LOCATION_KEY;
+        const data = await geo.getLocation(TESTIP);
+        expect(data).toBeDefined();
+        if (data) {
+            expect(data.ip).toBe(TESTIP);
+        }
+    });
+
+    it('Should throw error if api key is not valid', async () => {
+        const geo = new NodeGeolocation('ip2location', 'invalid');
+        await expect(geo.getLocation(TESTIP)).rejects.toThrow();
     });
 });
 
 describe('NodeGeolocation should calculate distance correctly', () => {
 
-    const geo = new NodeGeolocation(IPINFO_TOKEN);
+    const geo = new NodeGeolocation('ipinfo', IPINFO_KEY);
     // Rome, Italy
     const pos1 = { lat: 41.902782, lon: 12.496366 };
     // Tokyo, Japan

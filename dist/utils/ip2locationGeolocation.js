@@ -7,17 +7,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import https from 'https';
+function httpsGet(url) {
+    return new Promise((resolve, reject) => {
+        https.get(url, (response) => {
+            let data = '';
+            response.on('data', (chunk) => {
+                data += chunk;
+            });
+            response.on('end', () => {
+                resolve(data);
+            });
+        }).on('error', (err) => {
+            reject(err);
+        });
+    });
+}
 /**
- * Get geolocation from ip address
+ * Get geolocation from ip address using ip2location
  * @param ip Ip address to get geolocation from
  * @returns Geolocation object
  * @example getGeolocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
  */
-export const getGeolocation = (ip, ipinfo) => __awaiter(void 0, void 0, void 0, function* () {
+const getGeolocationIP2Location = (ip, key) => __awaiter(void 0, void 0, void 0, function* () {
+    const url = `https://api.ip2location.io/?key=${key}&ip=${ip}&format=json`;
     try {
-        return yield ipinfo.lookupIp(ip);
+        const data = JSON.parse(yield httpsGet(url));
+        if (data.error)
+            throw new Error(data.error);
+        return data;
     }
     catch (err) {
-        throw new Error(err);
+        throw err;
     }
 });
+export default getGeolocationIP2Location;

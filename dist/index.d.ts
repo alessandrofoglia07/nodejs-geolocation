@@ -2,11 +2,12 @@ import { GeolocationData, Position, Options } from './types.js';
 declare class NodeGeolocation {
     private _key;
     private _ipinfo;
-    constructor(key: string);
+    service: 'ipinfo' | 'ip2location';
+    constructor(service: 'ipinfo' | 'ip2location', key: string);
     set key(key: string);
     get key(): string;
     /**
-     * @key **You must set an IpInfo api key before using this method**
+     * @key **You must set a service and an api key before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
