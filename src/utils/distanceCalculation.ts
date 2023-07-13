@@ -1,7 +1,7 @@
-import { Position, Options } from '../types';
+import { Position, Options } from '../types.js';
 
 /**
- * Calculates the distance between two points
+ * Calculates the distance between two points using the Haversine formula
  * @param pos1 First point
  * @param pos2 Second point
  * @param options Options for the calculation
@@ -41,15 +41,9 @@ const calculateDistance = (pos1: Position, pos2: Position, _options: Options = {
         lon2 = pos2.y;
     }
 
-    // const theta = lon1 - lon2;
     const rad = Math.PI / 180;
     const dLat = (lat2 - lat1) * rad;
     const dLon = (lon2 - lon1) * rad;
-
-    // let dist = 60 * 1.1515 * (180 / Math.PI) * Math.acos(
-    //     Math.sin(lat1 * rad) * Math.sin(lat2 * rad) +
-    //     Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.cos(theta * rad)
-    // );
 
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 

@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Calculates the distance between two points using the Haversine formula
  * @param pos1 First point
@@ -74,4 +76,4 @@ const calculateDistance = (pos1, pos2, _options = { unit: 'km', format: false, e
         return `${dist} ${mesurement}`;
     return dist;
 };
-export default calculateDistance;
+exports.default = calculateDistance;

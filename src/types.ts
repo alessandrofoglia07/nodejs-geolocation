@@ -36,7 +36,7 @@ export type Position = {
 };
 
 export interface Options {
-    unit: 'km' | 'yd' | 'mi' | 'm' | 'ft';
-    format: boolean;
-    exact: boolean;
+    unit?: 'km' | 'yd' | 'mi' | 'm' | 'ft';
+    format?: boolean;
+    exact?: boolean;
 }

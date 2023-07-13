@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,19 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getGeolocation } from './utils/ipGeolocation.js';
-import IPinfoWrapper from 'node-ipinfo';
-import calculateDistance from './utils/distanceCalculation.js';
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const ipGeolocation_js_1 = require("./utils/ipGeolocation.js");
+const node_ipinfo_1 = __importDefault(require("node-ipinfo"));
+const distanceCalculation_js_1 = __importDefault(require("./utils/distanceCalculation.js"));
 class NodeGeolocation {
     constructor(key) {
         this._key = '';
-        this._ipinfo = new IPinfoWrapper('');
+        this._ipinfo = new node_ipinfo_1.default('');
         this._key = key;
-        this._ipinfo = new IPinfoWrapper(this._key);
+        this._ipinfo = new node_ipinfo_1.default(this._key);
     }
     set key(key) {
         this._key = key;
-        this._ipinfo = new IPinfoWrapper(this._key);
+        this._ipinfo = new node_ipinfo_1.default(this._key);
     }
     get key() {
         return this._key;
@@ -33,7 +38,7 @@ class NodeGeolocation {
      */
     getLocation(ip) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield getGeolocation(ip, this._ipinfo);
+            return yield (0, ipGeolocation_js_1.getGeolocation)(ip, this._ipinfo);
         });
     }
     ;
@@ -46,7 +51,7 @@ class NodeGeolocation {
      * @returns The distance between the two points
      */
     calculateDistance(pos1, pos2, options) {
-        return calculateDistance(pos1, pos2, options);
+        return (0, distanceCalculation_js_1.default)(pos1, pos2, options);
     }
 }
-export default NodeGeolocation;
+exports.default = NodeGeolocation;

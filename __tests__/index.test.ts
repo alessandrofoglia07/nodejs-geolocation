@@ -1,7 +1,11 @@
 require('dotenv').config();
-const NodeGeolocation = require('../src/index');
+import NodeGeolocation from '../dist/cjs/index.js';
 
 const { IPINFO_TOKEN, IPINFO_TESTIP } = process.env;
+
+if (!IPINFO_TOKEN || !IPINFO_TESTIP) {
+    throw new Error('Please set IPINFO_TOKEN and IPINFO_TESTIP in .env file');
+}
 
 test('NodeGeolocation should be defined', () => {
     expect(NodeGeolocation).toBeDefined();
@@ -13,15 +17,19 @@ describe('NodeGeolocation should return geolocation data correctly', () => {
         const geo = new NodeGeolocation(IPINFO_TOKEN);
         const data = await geo.getLocation(IPINFO_TESTIP);
         expect(data).toBeDefined();
-        expect(data.ip).toBe(IPINFO_TESTIP);
+        if (data) {
+            expect(data.ip).toBe(IPINFO_TESTIP);
+        }
     });
 
     it('Should change api key with setter', async () => {
-        const geo = new NodeGeolocation();
+        const geo = new NodeGeolocation('');
         geo.key = IPINFO_TOKEN;
         const data = await geo.getLocation(IPINFO_TESTIP);
         expect(data).toBeDefined();
-        expect(data.ip).toBe(IPINFO_TESTIP);
+        if (data) {
+            expect(data.ip).toBe(IPINFO_TESTIP);
+        }
     });
 
     it('Should throw error if api key is not valid', async () => {

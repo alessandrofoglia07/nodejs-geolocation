@@ -1,9 +1,15 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "NodeJS library that simplifies IP geolocation and related calculations.",
-    "main": "dist/index.js",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/index.js",
     "types": "dist/index.d.ts",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alessandrofoglia07/nodejs-geolocation"
+    },
     "license": "MIT",
     "keywords": [
         "geolocation",
@@ -20,11 +26,17 @@
         "longitude",
         "GPS",
         "distance",
-        "location-based services"
+        "location-based services",
+        "distance calculation",
+        "distance between two points",
+        "distance between two coordinates",
+        "harvesine formula"
     ],
     "scripts": {
+        "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+        "pretest": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
         "test": "jest",
-        "build": "tsc"
+        "prepublish": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
     },
     "author": "Alexxino",
     "files": [

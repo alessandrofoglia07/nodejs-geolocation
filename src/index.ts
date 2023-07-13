@@ -1,7 +1,7 @@
-import { getGeolocation } from './utils/ipGeolocation';
-import { GeolocationData, Position, Options } from './types';
+import { getGeolocation } from './utils/ipGeolocation.js';
+import { GeolocationData, Position, Options } from './types.js';
 import IPinfoWrapper from 'node-ipinfo';
-import calculateDistance from './utils/distanceCalculation';
+import calculateDistance from './utils/distanceCalculation.js';
 
 class NodeGeolocation {
 
@@ -34,7 +34,7 @@ class NodeGeolocation {
     };
 
     /**
-     * Calculates the distance between two points
+     * Calculates the distance between two points on earth using the haversine formula
      * @param pos1 First point
      * @param pos2 Second point
      * @param options Options for the calculation
@@ -46,4 +46,4 @@ class NodeGeolocation {
     }
 }
 
-module.exports = NodeGeolocation;
+export default NodeGeolocation;
