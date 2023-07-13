@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ipGeolocation_1 = require("./ipGeolocation");
+const ipGeolocation_1 = require("./utils/ipGeolocation");
 const node_ipinfo_1 = __importDefault(require("node-ipinfo"));
+const distanceCalculation_1 = __importDefault(require("./utils/distanceCalculation"));
 class NodeGeolocation {
     constructor(key) {
         this._key = '';
@@ -29,7 +30,7 @@ class NodeGeolocation {
         return this._key;
     }
     /**
-     * @IMPORTANT **You must set the api key before using this method**
+     * @key **You must set an IpInfo api key before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -41,5 +42,16 @@ class NodeGeolocation {
         });
     }
     ;
+    /**
+     * Calculates the distance between two points
+     * @param pos1 First point
+     * @param pos2 Second point
+     * @param options Options for the calculation
+     * @default options = { unit: 'km', format: false, exact: false }
+     * @returns The distance between the two points
+     */
+    calculateDistance(pos1, pos2, options) {
+        return (0, distanceCalculation_1.default)(pos1, pos2, options);
+    }
 }
 module.exports = NodeGeolocation;

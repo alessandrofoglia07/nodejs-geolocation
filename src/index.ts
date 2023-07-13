@@ -1,6 +1,7 @@
-import { getGeolocation } from './ipGeolocation';
-import { GeolocationData } from './types';
+import { getGeolocation } from './utils/ipGeolocation';
+import { GeolocationData, Position, Options } from './types';
 import IPinfoWrapper from 'node-ipinfo';
+import calculateDistance from './utils/distanceCalculation';
 
 class NodeGeolocation {
 
@@ -22,7 +23,7 @@ class NodeGeolocation {
     }
 
     /**
-     * @IMPORTANT **You must set the api key before using this method**
+     * @key **You must set an IpInfo api key before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -31,6 +32,18 @@ class NodeGeolocation {
     public async getLocation(ip: string): Promise<GeolocationData | void> {
         return await getGeolocation(ip, this._ipinfo);
     };
+
+    /**
+     * Calculates the distance between two points
+     * @param pos1 First point
+     * @param pos2 Second point
+     * @param options Options for the calculation
+     * @default options = { unit: 'km', format: false, exact: false }
+     * @returns The distance between the two points
+     */
+    public calculateDistance(pos1: Position, pos2: Position, options?: Options): number | string {
+        return calculateDistance(pos1, pos2, options);
+    }
 }
 
 module.exports = NodeGeolocation;
