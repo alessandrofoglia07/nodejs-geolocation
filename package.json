@@ -2,9 +2,9 @@
     "name": "nodejs-geolocation",
     "version": "1.3.1",
     "description": "NodeJS library that simplifies IP geolocation and related calculations.",
-    "main": "./dist/cjs/index.js",
-    "module": "./dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/index.js",
+    "types": "lib/index.d.ts",
     "type": "module",
     "repository": {
         "type": "git",
@@ -38,7 +38,7 @@
     },
     "author": "Alexxino",
     "files": [
-        "/dist"
+        "/lib"
     ],
     "devDependencies": {
         "@types/jest": "^29.5.3",
