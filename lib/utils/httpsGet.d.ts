@@ -1,2 +1,2 @@
-declare const httpsGet: (url: string) => Promise<string>;
+declare const httpsGet: (url: string, applicationID: string) => Promise<string>;
 export default httpsGet;

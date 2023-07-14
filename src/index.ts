@@ -3,9 +3,15 @@ import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
 import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.js';
 import IPinfoWrapper from 'node-ipinfo';
 import calculateDistance from './utils/distanceCalculation.js';
-import geocodeNominatim from './utils/geocodeNominatim.js';
+import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
 
 class NodeGeolocation {
+
+    private _id: string = '';
+
+    constructor(applicationName: string) {
+        this._id = `nodejs-geolocation-${applicationName}-${Math.floor(Math.random() * 100)}`;
+    }
 
     public geocodingOptions: GeocodingOptions = {
         service: 'Nominatim',
@@ -25,9 +31,9 @@ class NodeGeolocation {
      * @example NodeGeolocation.getLocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
      */
     public async getLocation(ip: string): Promise<GeolocationData | void> {
-        if (!this.ipGeolocationOptions) throw new Error('You must set an ipGeolocationOptions before using this method');
+        if (!this.ipGeolocationOptions) throw new Error('You must set ipGeolocationOptions object before using this method');
         if (this.ipGeolocationOptions.service === 'ip2location') {
-            return await getGeolocationIP2Location(ip, this.ipGeolocationOptions.key);
+            return await getGeolocationIP2Location(ip, this.ipGeolocationOptions.key, this._id);
         } else if (this.ipGeolocationOptions.service === 'ipinfo') {
             const ipinfo = new IPinfoWrapper(this.ipGeolocationOptions.key);
             return await getGeolocationIPInfo(ip, ipinfo);
@@ -49,14 +55,47 @@ class NodeGeolocation {
     }
 
     /**
+     * Get geocoding data from an address
      * @Important **You must set geocodingOptions object before using this method**
      * @param address Address string to geocode
      * @returns Geocoding data
      */
     public async getGeocoding(address: string): Promise<any> {
-        if (!this.geocodingOptions) throw new Error('You must set a geocodingOptions before using this method');
+        if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {
-            return await geocodeNominatim(address);
+            return await geocodeNominatim(address, this._id);
+        } else {
+            throw new Error('Invalid service');
+        }
+    }
+
+    /**
+     * Get reverse geocoding data from a position
+     * @Important **You must set geocodingOptions object before using this method**
+     * @param pos Position to reverse geocode
+     * @returns Reverse geocoding data
+     */
+    public async getReverseGeocoding(pos: Position): Promise<any> {
+        if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
+
+        let lat: number;
+        let lon: number;
+
+        if ('lat' in pos && 'lon' in pos) {
+            lat = pos.lat;
+            lon = pos.lon;
+        } else if ('latitude' in pos && 'longitude' in pos) {
+            lat = pos.latitude;
+            lon = pos.longitude;
+        } else if ('x' in pos && 'y' in pos) {
+            lat = pos.x;
+            lon = pos.y;
+        } else {
+            throw new Error('Invalid position');
+        }
+
+        if (this.geocodingOptions.service === 'Nominatim') {
+            return await reverseGeocodeNominatim(lat, lon, this._id);
         } else {
             throw new Error('Invalid service');
         }

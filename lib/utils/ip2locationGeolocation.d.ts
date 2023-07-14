@@ -5,5 +5,5 @@ import { GeolocationData } from "../types.js";
  * @param key API key
  * @returns Geolocation object
  */
-declare const getGeolocationIP2Location: (ip: string, key: string) => Promise<GeolocationData>;
+declare const getGeolocationIP2Location: (ip: string, key: string, applicationID: string) => Promise<GeolocationData>;
 export default getGeolocationIP2Location;

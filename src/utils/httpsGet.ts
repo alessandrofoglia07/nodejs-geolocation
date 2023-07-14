@@ -1,10 +1,10 @@
 import https from 'https';
 
-const httpsGet = (url: string): Promise<string> => {
+const httpsGet = (url: string, applicationID: string): Promise<string> => {
 
     const options = {
         headers: {
-            'User-Agent': 'nodejs-geolocation'
+            'User-Agent': applicationID
         }
     };
 

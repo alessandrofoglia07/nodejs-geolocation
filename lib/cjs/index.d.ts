@@ -1,9 +1,11 @@
 import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.js';
 declare class NodeGeolocation {
+    private _id;
+    constructor(applicationName: string);
     geocodingOptions: GeocodingOptions;
     ipGeolocationOptions: IPGeolocationOptions;
     /**
-     * @Important **You must set ipGeolocationOptions before using this method**
+     * @Important **You must set ipGeolocationOptions object before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -20,10 +22,18 @@ declare class NodeGeolocation {
      */
     calculateDistance(pos1: Position, pos2: Position, options?: DistanceCalculationOptions): number | string;
     /**
-     * @Important **You must set geocodingOptions before using this method**
+     * Get geocoding data from an address
+     * @Important **You must set geocodingOptions object before using this method**
      * @param address Address string to geocode
      * @returns Geocoding data
      */
     getGeocoding(address: string): Promise<any>;
+    /**
+     * Get reverse geocoding data from a position
+     * @Important **You must set geocodingOptions object before using this method**
+     * @param pos Position to reverse geocode
+     * @returns Reverse geocoding data
+     */
+    getReverseGeocoding(pos: Position): Promise<any>;
 }
 export default NodeGeolocation;

@@ -9,12 +9,14 @@ if (!IPINFO_KEY || !TESTIP || !IP2LOCATION_KEY) {
 
 test('NodeGeolocation should be defined', () => {
     expect(NodeGeolocation).toBeDefined();
-    expect(new NodeGeolocation()).toBeDefined();
+    expect(new NodeGeolocation('test')).toBeDefined();
 });
 
 describe('NodeGeolocation should return geolocation data correctly using IPInfo', () => {
+
+    const geo = new NodeGeolocation('test');
+
     it('Should return geolocation data', async () => {
-        const geo = new NodeGeolocation();
         geo.ipGeolocationOptions = {
             service: 'ipinfo',
             key: IPINFO_KEY
@@ -27,7 +29,6 @@ describe('NodeGeolocation should return geolocation data correctly using IPInfo'
     });
 
     it('Should throw error if api key is not valid', async () => {
-        const geo = new NodeGeolocation();
         geo.ipGeolocationOptions = {
             service: 'ipinfo',
             key: 'invalid'
@@ -37,8 +38,10 @@ describe('NodeGeolocation should return geolocation data correctly using IPInfo'
 });
 
 describe('NodeGeolocation should return geolocation data correctly using IP2Location', () => {
+
+    const geo = new NodeGeolocation('test');
+
     it('Should return geolocation data', async () => {
-        const geo = new NodeGeolocation();
         geo.ipGeolocationOptions = {
             service: 'ip2location',
             key: IP2LOCATION_KEY
@@ -51,7 +54,6 @@ describe('NodeGeolocation should return geolocation data correctly using IP2Loca
     });
 
     it('Should throw error if api key is not valid', async () => {
-        const geo = new NodeGeolocation();
         geo.ipGeolocationOptions = {
             service: 'ip2location',
             key: 'invalid'
@@ -62,7 +64,7 @@ describe('NodeGeolocation should return geolocation data correctly using IP2Loca
 
 describe('NodeGeolocation should calculate distance correctly', () => {
 
-    const geo = new NodeGeolocation();
+    const geo = new NodeGeolocation('test');
     // Rome, Italy
     const pos1 = { lat: 41.902782, lon: 12.496366 };
     // Tokyo, Japan
@@ -94,30 +96,28 @@ describe('NodeGeolocation should calculate distance correctly', () => {
 });
 
 describe('NodeGeolocation should return geocoding data correctly using Nominatim', () => {
+
+    const geo = new NodeGeolocation('test');
+    geo.geocodingOptions = {
+        service: 'Nominatim',
+        key: ''
+    };
+
     it('Should return geocoding data', async () => {
-        const geo = new NodeGeolocation();
-        geo.geocodingOptions = {
-            service: 'Nominatim',
-            key: ''
-        };
-
         const data = await geo.getGeocoding('Rome, Italy');
-        console.log(data);
-
         expect(data).toBeDefined();
-        if (data) {
-            expect(data.lat).toBe("41.8933203");
-            expect(data.lon).toBe("12.4829321");
-        }
+        expect(data.lat).toBe("41.8933203");
+        expect(data.lon).toBe("12.4829321");
     });
 
     it('Should throw error if location is not valid', async () => {
-        const geo = new NodeGeolocation();
-        geo.geocodingOptions = {
-            service: 'Nominatim',
-            key: ''
-        };
+        await expect(geo.getGeocoding('i.n.v.a.l.i.d')).rejects.toThrow();
+    });
 
-        await expect(geo.getGeocoding('jdsjndijab')).rejects.toThrow();
+    it('Should return reverse geocoding data', async () => {
+        const data = await geo.getReverseGeocoding({ lat: 41.8933203, lon: 12.4829321 });
+        expect(data).toBeDefined();
+        expect(data.address.city).toBe("Roma");
+        expect(data.address.country).toBe("Italia");
     });
 });
