@@ -1,13 +1,9 @@
-import { GeolocationData, Position, Options } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.js';
 declare class NodeGeolocation {
-    private _key;
-    private _ipinfo;
-    service: 'ipinfo' | 'ip2location';
-    constructor(service: 'ipinfo' | 'ip2location', key: string);
-    set key(key: string);
-    get key(): string;
+    geocodingOptions: GeocodingOptions;
+    ipGeolocationOptions: IPGeolocationOptions;
     /**
-     * @key **You must set a service and an api key before using this method**
+     * @Important **You must set an ipGeolocationOptions before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -22,6 +18,7 @@ declare class NodeGeolocation {
      * @default options = { unit: 'km', format: false, exact: false }
      * @returns The distance between the two points
      */
-    calculateDistance(pos1: Position, pos2: Position, options?: Options): number | string;
+    calculateDistance(pos1: Position, pos2: Position, options?: DistanceCalculationOptions): number | string;
+    getGeocoding(address: string): Promise<any>;
 }
 export default NodeGeolocation;

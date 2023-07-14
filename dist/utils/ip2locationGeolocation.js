@@ -7,27 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import https from 'https';
-function httpsGet(url) {
-    return new Promise((resolve, reject) => {
-        https.get(url, (response) => {
-            let data = '';
-            response.on('data', (chunk) => {
-                data += chunk;
-            });
-            response.on('end', () => {
-                resolve(data);
-            });
-        }).on('error', (err) => {
-            reject(err);
-        });
-    });
-}
+import httpsGet from "./httpsGet.js";
 /**
  * Get geolocation from ip address using ip2location
  * @param ip Ip address to get geolocation from
+ * @param key API key
  * @returns Geolocation object
- * @example getGeolocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
  */
 const getGeolocationIP2Location = (ip, key) => __awaiter(void 0, void 0, void 0, function* () {
     const url = `https://api.ip2location.io/?key=${key}&ip=${ip}&format=json`;

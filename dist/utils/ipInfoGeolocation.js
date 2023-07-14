@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 /**
  * Get geolocation from ip address using ipinfo
  * @param ip Ip address to get geolocation from
+ * @param ipinfo IPinfoWrapper object
  * @returns Geolocation object
  */
 const getGeolocationIPInfo = (ip, ipinfo) => __awaiter(void 0, void 0, void 0, function* () {

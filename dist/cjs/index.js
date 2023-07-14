@@ -16,26 +16,20 @@ const ipInfoGeolocation_js_1 = __importDefault(require("./utils/ipInfoGeolocatio
 const ip2locationGeolocation_js_1 = __importDefault(require("./utils/ip2locationGeolocation.js"));
 const node_ipinfo_1 = __importDefault(require("node-ipinfo"));
 const distanceCalculation_js_1 = __importDefault(require("./utils/distanceCalculation.js"));
+const geocodeNominatim_js_1 = __importDefault(require("./utils/geocodeNominatim.js"));
 class NodeGeolocation {
-    constructor(service, key) {
-        this._key = '';
-        this._ipinfo = new node_ipinfo_1.default(this._key);
-        this.service = 'ipinfo';
-        this.service = service;
-        this._key = key;
-        if (this.service === 'ipinfo') {
-            this._ipinfo = new node_ipinfo_1.default(this._key);
-        }
-    }
-    set key(key) {
-        this._key = key;
-        this._ipinfo = new node_ipinfo_1.default(this._key);
-    }
-    get key() {
-        return this._key;
+    constructor() {
+        this.geocodingOptions = {
+            service: 'Nominatim',
+            key: ''
+        };
+        this.ipGeolocationOptions = {
+            service: 'ipinfo',
+            key: ''
+        };
     }
     /**
-     * @key **You must set a service and an api key before using this method**
+     * @Important **You must set an ipGeolocationOptions before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -43,13 +37,17 @@ class NodeGeolocation {
      */
     getLocation(ip) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this._key)
-                throw new Error('You must set a service and an api key before using this method');
-            if (this.service === 'ip2location') {
-                return yield (0, ip2locationGeolocation_js_1.default)(ip, this._key);
+            if (!this.ipGeolocationOptions)
+                throw new Error('You must set an ipGeolocationOptions before using this method');
+            if (this.ipGeolocationOptions.service === 'ip2location') {
+                return yield (0, ip2locationGeolocation_js_1.default)(ip, this.ipGeolocationOptions.key);
             }
-            else if (this.service === 'ipinfo') {
-                return yield (0, ipInfoGeolocation_js_1.default)(ip, this._ipinfo);
+            else if (this.ipGeolocationOptions.service === 'ipinfo') {
+                const ipinfo = new node_ipinfo_1.default(this.ipGeolocationOptions.key);
+                return yield (0, ipInfoGeolocation_js_1.default)(ip, ipinfo);
+            }
+            else {
+                throw new Error('Invalid service');
             }
         });
     }
@@ -64,6 +62,18 @@ class NodeGeolocation {
      */
     calculateDistance(pos1, pos2, options) {
         return (0, distanceCalculation_js_1.default)(pos1, pos2, options);
+    }
+    getGeocoding(address) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.geocodingOptions)
+                throw new Error('You must set a geocodingOptions before using this method');
+            if (this.geocodingOptions.service === 'Nominatim') {
+                return yield (0, geocodeNominatim_js_1.default)(address);
+            }
+            else {
+                throw new Error('Invalid service');
+            }
+        });
     }
 }
 exports.default = NodeGeolocation;

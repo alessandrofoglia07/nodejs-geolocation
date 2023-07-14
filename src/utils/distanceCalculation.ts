@@ -1,4 +1,4 @@
-import { Position, Options } from '../types.js';
+import { Position, DistanceCalculationOptions } from '../types.js';
 
 /**
  * Calculates the distance between two points using the Haversine formula
@@ -7,7 +7,7 @@ import { Position, Options } from '../types.js';
  * @param options Options for the calculation
  * @returns The distance between the two points
  */
-const calculateDistance = (pos1: Position, pos2: Position, _options: Options = { unit: 'km', format: false, exact: false }) => {
+const calculateDistance = (pos1: Position, pos2: Position, _options: DistanceCalculationOptions = { unit: 'km', format: false, exact: false }) => {
     let lat1: number;
     let lon1: number;
     let lat2: number;
@@ -25,9 +25,11 @@ const calculateDistance = (pos1: Position, pos2: Position, _options: Options = {
     } else if ('latitude' in pos1 && 'longitude' in pos1) {
         lat1 = pos1.latitude;
         lon1 = pos1.longitude;
-    } else {
+    } else if ('x' in pos1 && 'y' in pos1) {
         lat1 = pos1.x;
         lon1 = pos1.y;
+    } else {
+        throw new Error('Invalid position 1');
     }
 
     if ('lat' in pos2 && 'lon' in pos2) {
@@ -36,9 +38,11 @@ const calculateDistance = (pos1: Position, pos2: Position, _options: Options = {
     } else if ('latitude' in pos2 && 'longitude' in pos2) {
         lat2 = pos2.latitude;
         lon2 = pos2.longitude;
-    } else {
+    } else if ('x' in pos2 && 'y' in pos2) {
         lat2 = pos2.x;
         lon2 = pos2.y;
+    } else {
+        throw new Error('Invalid position 2');
     }
 
     const rad = Math.PI / 180;
@@ -64,7 +68,7 @@ const calculateDistance = (pos1: Position, pos2: Position, _options: Options = {
 
     if (!options.exact) dist = Math.round(dist);
 
-    if (options.format) return `${dist} ${mesurement!}`;
+    if (options.format) return `${dist} ${mesurement}`;
 
     return dist;
 };

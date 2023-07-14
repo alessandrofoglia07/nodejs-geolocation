@@ -13,22 +13,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const httpsGet_js_1 = __importDefault(require("./httpsGet.js"));
-/**
- * Get geolocation from ip address using ip2location
- * @param ip Ip address to get geolocation from
- * @param key API key
- * @returns Geolocation object
- */
-const getGeolocationIP2Location = (ip, key) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `https://api.ip2location.io/?key=${key}&ip=${ip}&format=json`;
+const geocodeNominatim = (address) => __awaiter(void 0, void 0, void 0, function* () {
+    const encodedAddress = encodeURIComponent(address);
+    let apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`;
     try {
-        const data = JSON.parse(yield (0, httpsGet_js_1.default)(url));
+        const res = yield (0, httpsGet_js_1.default)(apiUrl);
+        if (res.startsWith('<html>')) {
+            throw new Error(res);
+        }
+        const data = JSON.parse(res);
         if (data.error)
             throw new Error(data.error);
-        return data;
+        if (data.length === 0)
+            throw new Error('No results found');
+        const { lat, lon } = data[0];
+        return {
+            lat: parseFloat(lat),
+            lon: parseFloat(lon)
+        };
     }
     catch (err) {
-        throw err;
+        throw new Error(err);
     }
 });
-exports.default = getGeolocationIP2Location;
+exports.default = geocodeNominatim;

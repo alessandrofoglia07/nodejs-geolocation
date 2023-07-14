@@ -1,3 +1,13 @@
+interface ServiceOptions {
+    service: string;
+    key: string;
+}
+export interface IPGeolocationOptions extends ServiceOptions {
+    service: 'ipinfo' | 'ip2location';
+}
+export interface GeocodingOptions extends ServiceOptions {
+    service: 'Nominatim';
+}
 export type GeolocationData = {
     ip: string;
     [key: string]: any;
@@ -12,8 +22,9 @@ export type Position = {
     x: number;
     y: number;
 };
-export interface Options {
+export interface DistanceCalculationOptions {
     unit?: 'km' | 'yd' | 'mi' | 'm' | 'ft';
     format?: boolean;
     exact?: boolean;
 }
+export {};

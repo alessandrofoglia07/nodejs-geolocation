@@ -1,4 +1,4 @@
-import { Position, Options } from '../types.js';
+import { Position, DistanceCalculationOptions } from '../types.js';
 /**
  * Calculates the distance between two points using the Haversine formula
  * @param pos1 First point
@@ -6,5 +6,5 @@ import { Position, Options } from '../types.js';
  * @param options Options for the calculation
  * @returns The distance between the two points
  */
-declare const calculateDistance: (pos1: Position, pos2: Position, _options?: Options) => string | number;
+declare const calculateDistance: (pos1: Position, pos2: Position, _options?: DistanceCalculationOptions) => string | number;
 export default calculateDistance;

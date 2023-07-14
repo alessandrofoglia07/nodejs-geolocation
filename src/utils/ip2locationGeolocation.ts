@@ -1,23 +1,5 @@
 import { GeolocationData } from "../types.js";
-import https from 'https';
-
-function httpsGet(url: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-        https.get(url, (response) => {
-            let data = '';
-
-            response.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            response.on('end', () => {
-                resolve(data);
-            });
-        }).on('error', (err: any) => {
-            reject(err);
-        });
-    });
-}
+import httpsGet from "./httpsGet.js";
 
 /**
  * Get geolocation from ip address using ip2location

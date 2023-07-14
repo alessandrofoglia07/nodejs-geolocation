@@ -23,9 +23,12 @@ const calculateDistance = (pos1, pos2, _options = { unit: 'km', format: false, e
         lat1 = pos1.latitude;
         lon1 = pos1.longitude;
     }
-    else {
+    else if ('x' in pos1 && 'y' in pos1) {
         lat1 = pos1.x;
         lon1 = pos1.y;
+    }
+    else {
+        throw new Error('Invalid position 1');
     }
     if ('lat' in pos2 && 'lon' in pos2) {
         lat2 = pos2.lat;
@@ -35,9 +38,12 @@ const calculateDistance = (pos1, pos2, _options = { unit: 'km', format: false, e
         lat2 = pos2.latitude;
         lon2 = pos2.longitude;
     }
-    else {
+    else if ('x' in pos2 && 'y' in pos2) {
         lat2 = pos2.x;
         lon2 = pos2.y;
+    }
+    else {
+        throw new Error('Invalid position 2');
     }
     const rad = Math.PI / 180;
     const dLat = (lat2 - lat1) * rad;
