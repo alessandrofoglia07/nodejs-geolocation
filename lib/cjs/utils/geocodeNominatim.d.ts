@@ -1,5 +1,2 @@
-declare const geocodeNominatim: (address: string) => Promise<{
-    lat: number;
-    lon: number;
-}>;
+declare const geocodeNominatim: (address: string) => Promise<any>;
 export default geocodeNominatim;

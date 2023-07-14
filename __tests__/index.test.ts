@@ -106,8 +106,8 @@ describe('NodeGeolocation should return geocoding data correctly using Nominatim
 
         expect(data).toBeDefined();
         if (data) {
-            expect(data.lat).toBe(41.8933203);
-            expect(data.lon).toBe(12.4829321);
+            expect(data.lat).toBe("41.8933203");
+            expect(data.lon).toBe("12.4829321");
         }
     });
 

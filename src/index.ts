@@ -18,7 +18,7 @@ class NodeGeolocation {
     };
 
     /**
-     * @Important **You must set an ipGeolocationOptions before using this method**
+     * @Important **You must set ipGeolocationOptions object before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
@@ -48,6 +48,11 @@ class NodeGeolocation {
         return calculateDistance(pos1, pos2, options);
     }
 
+    /**
+     * @Important **You must set geocodingOptions object before using this method**
+     * @param address Address string to geocode
+     * @returns Geocoding data
+     */
     public async getGeocoding(address: string): Promise<any> {
         if (!this.geocodingOptions) throw new Error('You must set a geocodingOptions before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {

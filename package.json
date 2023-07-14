@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "description": "NodeJS library that simplifies IP geolocation and related calculations.",
     "main": "./lib/cjs/index.js",
     "module": "./lib/index.js",
@@ -28,7 +28,8 @@
         "ipinfo",
         "ip2location",
         "harvesine formula",
-        "geocoding"
+        "geocoding",
+        "Nominatim"
     ],
     "scripts": {
         "build": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",

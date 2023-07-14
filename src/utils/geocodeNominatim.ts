@@ -16,12 +16,7 @@ const geocodeNominatim = async (address: string) => {
         if (data.error) throw new Error(data.error);
         if (data.length === 0) throw new Error('No results found');
 
-        const { lat, lon } = data[0];
-
-        return {
-            lat: parseFloat(lat),
-            lon: parseFloat(lon)
-        };
+        return data[0];
 
     } catch (err: any) {
         throw new Error(err);
