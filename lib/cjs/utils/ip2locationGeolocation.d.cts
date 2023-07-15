@@ -1,4 +1,4 @@
-import { GeolocationData } from "../types.js";
+import { GeolocationData } from "../types.cjs";
 /**
  * Get geolocation from ip address using ip2location
  * @param ip Ip address to get geolocation from

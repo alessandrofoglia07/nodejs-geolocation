@@ -1,4 +1,4 @@
-import { Position, DistanceCalculationOptions } from '../types.js';
+import { Position, DistanceCalculationOptions } from '../types.cjs';
 /**
  * Calculates the distance between two points using the Haversine formula
  * @param pos1 First point

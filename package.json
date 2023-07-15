@@ -1,10 +1,27 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.4.1",
+    "version": "1.4.8",
     "description": "NodeJS library that simplifies IP geolocation and related calculations.",
-    "main": "./lib/cjs/index.js",
-    "module": "./lib/index.js",
-    "types": "lib/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./lib/module/index.d.ts",
+                "default": "./lib/module/index.js"
+            },
+            "require": {
+                "types": "./lib/cjs/index.d.cts",
+                "default": "./lib/cjs/index.cjs"
+            },
+            "types": {
+                "require": "./lib/cjs/index.d.cts",
+                "import": "./lib/module/index.d.ts",
+                "default": "./lib/module/index.d.ts"
+            }
+        }
+    },
+    "main": "lib/cjs/index.cjs",
+    "module": "lib/module/index.js",
+    "types": "lib/cjs/index.d.cts",
     "type": "module",
     "repository": {
         "type": "git",
@@ -34,10 +51,10 @@
         "reverse geocoding"
     ],
     "scripts": {
-        "build": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-        "pretest": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+        "build": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
+        "pretest": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
         "test": "jest",
-        "prepublish": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
+        "prepublish": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js"
     },
     "author": "Alexxino",
     "files": [

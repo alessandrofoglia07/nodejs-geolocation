@@ -1,5 +1,5 @@
 import IPinfoWrapper from "node-ipinfo";
-import { GeolocationData } from "../types.js";
+import { GeolocationData } from "../types.cjs";
 /**
  * Get geolocation from ip address using ipinfo
  * @param ip Ip address to get geolocation from

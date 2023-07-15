@@ -1,4 +1,4 @@
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.cjs';
 declare class NodeGeolocation {
     private _id;
     constructor(applicationName: string);

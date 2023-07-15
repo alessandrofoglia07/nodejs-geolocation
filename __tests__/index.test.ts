@@ -1,5 +1,5 @@
 require('dotenv').config();
-import NodeGeolocation from '../lib/cjs/index.js';
+import NodeGeolocation from '../lib/cjs/index.cjs';
 
 const { IPINFO_KEY, TESTIP, IP2LOCATION_KEY } = process.env;
 
