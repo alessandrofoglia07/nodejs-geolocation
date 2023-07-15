@@ -24,6 +24,7 @@ class NodeGeolocation {
     };
 
     /**
+     * Get geolocation from ip address
      * @Important **You must set ipGeolocationOptions object before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
