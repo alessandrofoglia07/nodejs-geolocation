@@ -66,7 +66,13 @@ geo.ipGeolocationOptions = {
 };
 
 // Get geolocation data from IP address
-const data = await geo.getLocation('111.6.105.201');
+geo.getLocation('111.6.105.201')
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 ```
 
 #### IP2Location [Get your API key](https://www.ip2location.io/sign-up)
@@ -83,7 +89,13 @@ geo.ipGeolocationOptions = {
 };
 
 // Get geolocation data from IP address
-const data = await geo.getLocation('111.6.105.201');
+geo.getLocation('111.6.105.201')
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 ```
 
 <br>
@@ -142,7 +154,13 @@ geo.geocodingOptions = {
 };
 
 // Get geocoding data from address
-const data = await geo.getGeocoding('Rome, Italy');
+geo.getGeocoding('Rome, Italy')
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 ```
 
 <br>
@@ -165,7 +183,13 @@ geo.geocodingOptions = {
 const position = { lat: 41.8933203, lon: 12.4829321 };
 
 // Get reverse geocoding data from coordinates
-const data = await geo.getReverseGeocoding(position);
+geo.getReverseGeocoding(position)
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 ```
 
 ## License
