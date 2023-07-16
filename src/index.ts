@@ -1,6 +1,6 @@
 import getGeolocationIPInfo from './utils/ipInfoGeolocation.js';
 import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.js';
 import IPinfoWrapper from 'node-ipinfo';
 import calculateDistance from './utils/distanceCalculation.js';
 import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
@@ -100,6 +100,27 @@ class NodeGeolocation {
         } else {
             throw new Error('Invalid service');
         }
+    }
+
+    /**
+     * Built-in unit converter
+     * @param value Value to convert
+     * @param from Unit to convert from
+     * @param to Unit to convert to
+     * @returns Converted value
+     */
+    public convertUnit(value: number, from: Unit, to: Unit): number {
+        const units: { [key: string]: number; } = {
+            km: 1000,
+            m: 1,
+            mi: 1609.34,
+            yd: 0.9144,
+            ft: 0.3048
+        };
+
+        const result = value * units[from] / units[to];
+
+        return result;
     }
 }
 

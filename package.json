@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.5.1",
+    "version": "1.5.5",
     "description": "NodeJS library that simplifies IP geolocation and related calculations.",
     "exports": {
         ".": {
@@ -51,7 +51,8 @@
         "geocoding",
         "Nominatim",
         "OpenStreetMap",
-        "reverse geocoding"
+        "reverse geocoding",
+        "unit conversion"
     ],
     "scripts": {
         "build": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",

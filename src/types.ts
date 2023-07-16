@@ -27,8 +27,10 @@ export type Position = {
     y: number;
 };
 
+export type Unit = 'km' | 'yd' | 'mi' | 'm' | 'ft';
+
 export interface DistanceCalculationOptions {
-    unit?: 'km' | 'yd' | 'mi' | 'm' | 'ft';
+    unit?: Unit;
     format?: boolean;
     exact?: boolean;
 }

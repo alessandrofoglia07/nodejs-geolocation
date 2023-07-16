@@ -1,10 +1,11 @@
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions } from './types.cjs';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.cjs';
 declare class NodeGeolocation {
     private _id;
     constructor(applicationName: string);
     geocodingOptions: GeocodingOptions;
     ipGeolocationOptions: IPGeolocationOptions;
     /**
+     * Get geolocation from ip address
      * @Important **You must set ipGeolocationOptions object before using this method**
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
@@ -35,5 +36,6 @@ declare class NodeGeolocation {
      * @returns Reverse geocoding data
      */
     getReverseGeocoding(pos: Position): Promise<any>;
+    convertUnit(value: number, from: Unit, to: Unit): number;
 }
 export default NodeGeolocation;

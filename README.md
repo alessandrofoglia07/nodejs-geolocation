@@ -39,7 +39,7 @@ const geo = new NodeGeolocation('applicationName');
 ```javascript
 const NodeGeolocation = require('nodejs-geolocation').default;
 
-const geo = new NodeGeolocation();
+const geo = new NodeGeolocation('applicationName');
 ```
 
 <br>
@@ -48,7 +48,7 @@ const geo = new NodeGeolocation();
 
 ### Get geolocation data from IP address
 
-nodejs-geolocation supports IPInfo and IP2Location as geolocation providers.
+nodejs-geolocation supports **IPInfo** and **IP2Location** as geolocation providers.
 <br/>
 The examples are written in TypeScript, but the same methods are available in JavaScript.
 
@@ -100,7 +100,9 @@ geo.getLocation('111.6.105.201')
 
 <br>
 
-### Get distance between two points (harvesine formula)
+### Get distance between two points
+
+nodejs-geolocation uses the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula) to calculate the distance between two points on earth, based on their coordinates.
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
@@ -119,7 +121,8 @@ const pos1 = { lat: 41.902782, lon: 12.496366 };
 // Tokyo, Japan
 const pos2 = { latitude: 35.685013, longitude: 139.7514 };
 
-const distance = geo.calculateDistance(pos1, pos2); // 9857
+const distance = geo.calculateDistance(pos1, pos2);
+console.log(distance); // 9857
 
 /**
  * Options object
@@ -129,11 +132,11 @@ const distance = geo.calculateDistance(pos1, pos2); // 9857
  */
 // Result:
 
-const distance = geo.calculateDistance(pos1, pos2, { unit: 'mi' }); // 6125
+console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi' })); // 6125
 
-const distance = geo.calculateDistance(pos1, pos2, { format: true }); // "9857 kilometers"
+console.log(geo.calculateDistance(pos1, pos2, { format: true })); // "9857 kilometers"
 
-const distance = geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true }); // 6124.860370167203
+console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true })); // 6124.860370167203
 ```
 
 <br>
@@ -190,6 +193,25 @@ geo.getReverseGeocoding(position)
     .catch((err) => {
         console.log(err);
     });
+```
+
+### Unit conversion
+
+nodejs-geolocation comes with a built-in unit conversion method.
+
+```typescript
+import NodeGeolocation from 'nodejs-geolocation';
+
+const geo = new NodeGeolocation('MyApp');
+
+/**
+ * Accepted unit formats:
+ * km | yd | mi | m | ft
+ */
+
+// Convert 1500 meters to kilometers
+const km = geo.convertUnit(1500, 'm', 'km');
+console.log(km); // 1.5
 ```
 
 ## License
