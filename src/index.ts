@@ -1,11 +1,15 @@
 import getGeolocationIPInfo from './utils/ipInfoGeolocation.js';
 import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
 import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.js';
-import IPinfoWrapper from 'node-ipinfo';
 import calculateDistance from './utils/distanceCalculation.js';
 import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
 import { geocodeHere, reverseGeocodeHere } from './utils/geocodeHere.js';
 
+/**
+ * NodeGeolocation class
+ * @constructor (applicationName: string)
+ * @docs [Documentation](https://github.com/alessandrofoglia07/nodejs-geolocation/blob/main/README.md)
+ */
 class NodeGeolocation {
 
     private _id: string = '';
@@ -14,11 +18,21 @@ class NodeGeolocation {
         this._id = `nodejs-geolocation-${applicationName}-${Math.floor(Math.random() * 100)}`;
     }
 
+    /**
+     * Options for geocoding
+     * @property service "Nominatim" | "Here"
+     * @property key API key
+     */
     public geocodingOptions: GeocodingOptions = {
         service: 'Nominatim',
         key: ''
     };
 
+    /**
+     * Options for ip geolocation
+     * @property service "ip2location" | "ipinfo"
+     * @property key API key
+     */
     public ipGeolocationOptions: IPGeolocationOptions = {
         service: 'ipinfo',
         key: ''
@@ -30,15 +44,13 @@ class NodeGeolocation {
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
-     * @example NodeGeolocation.getLocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
      */
     public async getLocation(ip: string): Promise<GeolocationData | void> {
         if (!this.ipGeolocationOptions) throw new Error('You must set ipGeolocationOptions object before using this method');
         if (this.ipGeolocationOptions.service === 'ip2location') {
             return await getGeolocationIP2Location(ip, this.ipGeolocationOptions.key, this._id);
         } else if (this.ipGeolocationOptions.service === 'ipinfo') {
-            const ipinfo = new IPinfoWrapper(this.ipGeolocationOptions.key);
-            return await getGeolocationIPInfo(ip, ipinfo);
+            return await getGeolocationIPInfo(ip, this.ipGeolocationOptions.key, this._id);
         } else {
             throw new Error('Invalid service');
         }

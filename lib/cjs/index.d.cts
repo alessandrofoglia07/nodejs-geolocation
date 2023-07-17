@@ -1,8 +1,23 @@
 import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.cjs';
+/**
+ * NodeGeolocation class
+ * @constructor (applicationName: string)
+ * @docs [Documentation](https://github.com/alessandrofoglia07/nodejs-geolocation/blob/main/README.md)
+ */
 declare class NodeGeolocation {
     private _id;
     constructor(applicationName: string);
+    /**
+     * Options for geocoding
+     * @property service "Nominatim" | "Here"
+     * @property key API key
+     */
     geocodingOptions: GeocodingOptions;
+    /**
+     * Options for ip geolocation
+     * @property service "ip2location" | "ipinfo"
+     * @property key API key
+     */
     ipGeolocationOptions: IPGeolocationOptions;
     /**
      * Get geolocation from ip address
@@ -10,7 +25,6 @@ declare class NodeGeolocation {
      * @description Get geolocation from ip address
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
-     * @example NodeGeolocation.getLocation("111.6.105.201") // { ip: "111.6.105.201", hostname: "...", ...}
      */
     getLocation(ip: string): Promise<GeolocationData | void>;
     /**

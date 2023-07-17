@@ -1,15 +1,19 @@
-import IPinfoWrapper from "node-ipinfo";
 import { GeolocationData } from "../types.js";
+import httpsGet from "./httpsGet.js";
 
 /**
  * Get geolocation from ip address using ipinfo
  * @param ip Ip address to get geolocation from
- * @param ipinfo IPinfoWrapper object
+ * @param key API key
+ * @param appID Application ID
  * @returns Geolocation object
  */
-const getGeolocationIPInfo = async (ip: string, ipinfo: IPinfoWrapper): Promise<GeolocationData> => {
+const getGeolocationIPInfo = async (ip: string, key: string, appID: string): Promise<GeolocationData> => {
     try {
-        return await ipinfo.lookupIp(ip);
+        const res = await httpsGet(`https://ipinfo.io/${ip}?token=${key}`, appID);
+        const data = JSON.parse(res) as GeolocationData;
+        if (data.error) throw new Error(data.error.message);
+        return data;
     } catch (err: any) {
         throw new Error(err);
     }

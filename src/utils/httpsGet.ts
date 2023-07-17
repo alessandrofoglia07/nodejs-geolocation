@@ -1,5 +1,11 @@
 import https from 'https';
 
+/**
+ * Get data from api (https)
+ * @param url Url to get data from
+ * @param applicationID Application ID
+ * @returns Data from url
+ */
 const httpsGet = (url: string, applicationID: string): Promise<string> => {
 
     const options = {
