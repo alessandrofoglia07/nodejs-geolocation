@@ -10,13 +10,9 @@ import httpsGet from "./httpsGet.js";
  */
 const getGeolocationIP2Location = async (ip: string, key: string, appID: string): Promise<GeolocationData> => {
     const url = `https://api.ip2location.io/?key=${key}&ip=${ip}&format=json`;
-    try {
-        const data = JSON.parse(await httpsGet(url, appID));
-        if (data.error) throw new Error(data.error);
-        return data;
-    } catch (err: any) {
-        throw err;
-    }
+    const data = JSON.parse(await httpsGet(url, appID));
+    if (data.error) throw new Error(data.error);
+    return data;
 };
 
 export default getGeolocationIP2Location;

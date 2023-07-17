@@ -54,7 +54,7 @@ class NodeGeolocation {
         } else {
             throw new Error('Invalid service');
         }
-    };
+    }
 
     /**
      * Calculates the distance between two points on earth using the haversine formula
@@ -74,7 +74,7 @@ class NodeGeolocation {
      * @param address Address string to geocode
      * @returns Geocoding data
      */
-    public async getGeocoding(address: string): Promise<any> {
+    public async getGeocoding(address: string): Promise<unknown> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {
             return await geocodeNominatim(address, this._id);
@@ -91,7 +91,7 @@ class NodeGeolocation {
      * @param pos Position to reverse geocode
      * @returns Reverse geocoding data
      */
-    public async getReverseGeocoding(pos: Position): Promise<any> {
+    public async getReverseGeocoding(pos: Position): Promise<unknown> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
 
         let lat: number;

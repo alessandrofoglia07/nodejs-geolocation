@@ -5,7 +5,7 @@
  * @param appID Application ID
  * @returns Geocoded address
  */
-export declare const geocodeHere: (address: string, apiKey: string, appID: string) => Promise<any>;
+export declare const geocodeHere: (address: string, apiKey: string, appID: string) => Promise<unknown>;
 /**
  * Reverse geocode address using Here API
  * @param lat Latitude
@@ -14,4 +14,4 @@ export declare const geocodeHere: (address: string, apiKey: string, appID: strin
  * @param appID Application ID
  * @returns Reverse geocoded address
  */
-export declare const reverseGeocodeHere: (lat: number, lon: number, apiKey: string, appID: string) => Promise<any>;
+export declare const reverseGeocodeHere: (lat: number, lon: number, apiKey: string, appID: string) => Promise<unknown>;

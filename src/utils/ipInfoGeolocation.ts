@@ -14,8 +14,14 @@ const getGeolocationIPInfo = async (ip: string, key: string, appID: string): Pro
         const data = JSON.parse(res) as GeolocationData;
         if (data.error) throw new Error(data.error.message);
         return data;
-    } catch (err: any) {
-        throw new Error(err);
+    } catch (err: unknown) {
+        if (typeof err === 'string') {
+            throw new Error(err);
+        } else if (err instanceof Error) {
+            throw err;
+        } else {
+            throw new Error('Unknown error');
+        }
     }
 };
 

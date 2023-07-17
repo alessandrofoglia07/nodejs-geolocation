@@ -6,7 +6,7 @@ import httpsGet from "./httpsGet.js";
  * @param appID Application ID
  * @returns Geocoded address 
  */
-export const geocodeNominatim = async (address: string, appID: string) => {
+export const geocodeNominatim = async (address: string, appID: string): Promise<unknown> => {
     const encodedAddress = encodeURIComponent(address);
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`;
 
@@ -24,8 +24,14 @@ export const geocodeNominatim = async (address: string, appID: string) => {
 
         return data[0];
 
-    } catch (err: any) {
-        throw new Error(err);
+    } catch (err: unknown) {
+        if (typeof err === 'string') {
+            throw new Error(err);
+        } else if (err instanceof Error) {
+            throw err;
+        } else {
+            throw new Error('Unknown error');
+        }
     }
 };
 
@@ -36,7 +42,7 @@ export const geocodeNominatim = async (address: string, appID: string) => {
  * @param appID Application ID
  * @returns Reverse geocoded address
  */
-export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string) => {
+export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string): Promise<unknown> => {
     const encodedLat = encodeURIComponent(lat);
     const encodedLon = encodeURIComponent(lon);
 
@@ -55,7 +61,13 @@ export const reverseGeocodeNominatim = async (lat: number | string, lon: number 
         if (data.length === 0) throw new Error('No results found');
 
         return data;
-    } catch (err: any) {
-        throw new Error(err);
+    } catch (err: unknown) {
+        if (typeof err === 'string') {
+            throw new Error(err);
+        } else if (err instanceof Error) {
+            throw err;
+        } else {
+            throw new Error('Unknown error');
+        }
     }
 };

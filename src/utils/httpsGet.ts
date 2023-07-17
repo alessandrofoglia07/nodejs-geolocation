@@ -25,7 +25,7 @@ const httpsGet = (url: string, applicationID: string): Promise<string> => {
             response.on('end', () => {
                 resolve(data);
             });
-        }).on('error', (err: any) => {
+        }).on('error', (err: unknown) => {
             reject(err);
         });
     });

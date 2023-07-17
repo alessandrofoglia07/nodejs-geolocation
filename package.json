@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.7.3",
+    "version": "1.7.4",
     "description": "NodeJS library that simplifies geolocation and related calculations.",
     "exports": {
         ".": {
@@ -62,7 +62,9 @@
         "build": "npm run build:win || npm run build:linux",
         "pretest": "npm run build:win || npm run build:linux",
         "test": "jest",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "lint": "eslint . --ext .ts",
+        "fixLint": "eslint . --ext .ts --fix"
     },
     "author": "alessandrofoglia07",
     "files": [
@@ -71,7 +73,10 @@
     ],
     "devDependencies": {
         "@types/jest": "^29.5.3",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
         "dotenv": "^16.3.1",
+        "eslint": "^8.45.0",
         "jest": "^29.6.1",
         "ts-jest": "^29.1.1"
     }

@@ -10,7 +10,8 @@ export interface GeocodingOptions extends ServiceOptions {
 }
 export type GeolocationData = {
     ip: string;
-    [key: string]: any;
+    [key: string]: unknown;
+    error?: Error;
 };
 export type Position = {
     lat: number;
