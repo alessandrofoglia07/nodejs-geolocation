@@ -8,7 +8,7 @@ export interface IPGeolocationOptions extends ServiceOptions {
 }
 
 export interface GeocodingOptions extends ServiceOptions {
-    service: 'Nominatim';
+    service: 'Nominatim' | 'Here';
 }
 
 export type GeolocationData = {

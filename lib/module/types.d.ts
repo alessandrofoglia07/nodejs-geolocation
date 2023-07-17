@@ -6,7 +6,7 @@ export interface IPGeolocationOptions extends ServiceOptions {
     service: 'ipinfo' | 'ip2location';
 }
 export interface GeocodingOptions extends ServiceOptions {
-    service: 'Nominatim';
+    service: 'Nominatim' | 'Here';
 }
 export type GeolocationData = {
     ip: string;

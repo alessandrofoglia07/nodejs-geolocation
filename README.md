@@ -143,7 +143,9 @@ console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true })); // 
 
 ### Get geocoding data from address
 
-nodejs-geolocation **_for now_** only supports [OpenStreetMap Nominatim API](https://nominatim.org/) as geocoding provider, but more will be added in the future.
+nodejs-geolocation supports **OpenStreetMap Nominatim API** and **Here Location API** as geocoding provider.
+
+#### OpenStreetMap Nominatim API
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
@@ -166,11 +168,36 @@ geo.getGeocoding('Rome, Italy')
     });
 ```
 
+#### Here Location API [Get your API key](https://developer.here.com/sign-up)
+
+```typescript
+import NodeGeolocation from 'nodejs-geolocation';
+
+const geo = new NodeGeolocation('MyApp');
+
+// Set geocodingOptions
+geo.geocodingOptions = {
+    service: 'Here',
+    key: 'mySecretApiKeyFromHere'
+};
+
+// Get geocoding data from address
+geo.getGeocoding('Rome, Italy')
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+```
+
 <br>
 
 ### Get reverse geocoding data from coordinates
 
-nodejs-geolocation **_for now_** only supports [OpenStreetMap Nominatim API](https://nominatim.org/) as reverse geocoding provider, but more will be added in the future.
+nodejs-geolocation supports **OpenStreetMap Nominatim API** and **Here Location API** as reverse geocoding provider.
+
+#### OpenStreetMap Nominatim API
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
@@ -181,6 +208,31 @@ const geo = new NodeGeolocation('MyApp');
 geo.geocodingOptions = {
     service: 'Nominatim',
     key: '' // Not required
+};
+
+const position = { lat: 41.8933203, lon: 12.4829321 };
+
+// Get reverse geocoding data from coordinates
+geo.getReverseGeocoding(position)
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+```
+
+#### Here Location API [Get your API key](https://developer.here.com/sign-up)
+
+```typescript
+import NodeGeolocation from 'nodejs-geolocation';
+
+const geo = new NodeGeolocation('MyApp');
+
+// Set geocodingOptions
+geo.geocodingOptions = {
+    service: 'Here',
+    key: 'mySecretApiKeyFromHere'
 };
 
 const position = { lat: 41.8933203, lon: 12.4829321 };
@@ -212,6 +264,25 @@ const geo = new NodeGeolocation('MyApp');
 // Convert 1500 meters to kilometers
 const km = geo.convertUnit(1500, 'm', 'km');
 console.log(km); // 1.5
+```
+
+### Typescript interfaces (TS only)
+
+You can import the interfaces from the package to use them in your project.
+
+```typescript
+// Import interfaces (example)
+import { Position, Unit, DistanceCalculationOptions } from 'nodejs-geolocation';
+
+const pos: Position = { lat: 41.8933203, lon: 12.4829321 };
+
+const myUnit: Unit = 'yd';
+
+const options: DistanceCalculationOptions = {
+    unit: myUnit,
+    format: true,
+    exact: true
+};
 ```
 
 ## License

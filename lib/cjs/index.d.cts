@@ -36,6 +36,14 @@ declare class NodeGeolocation {
      * @returns Reverse geocoding data
      */
     getReverseGeocoding(pos: Position): Promise<any>;
+    /**
+     * Built-in unit converter
+     * @param value Value to convert
+     * @param from Unit to convert from
+     * @param to Unit to convert to
+     * @returns Converted value
+     */
     convertUnit(value: number, from: Unit, to: Unit): number;
 }
+export * from './types.cjs';
 export default NodeGeolocation;

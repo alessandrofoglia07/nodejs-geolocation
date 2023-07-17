@@ -4,6 +4,7 @@ import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions
 import IPinfoWrapper from 'node-ipinfo';
 import calculateDistance from './utils/distanceCalculation.js';
 import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
+import { geocodeHere, reverseGeocodeHere } from './utils/geocodeHere.js';
 
 class NodeGeolocation {
 
@@ -65,6 +66,8 @@ class NodeGeolocation {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {
             return await geocodeNominatim(address, this._id);
+        } else if (this.geocodingOptions.service === 'Here') {
+            return await geocodeHere(address, this.geocodingOptions.key, this._id);
         } else {
             throw new Error('Invalid service');
         }
@@ -97,6 +100,8 @@ class NodeGeolocation {
 
         if (this.geocodingOptions.service === 'Nominatim') {
             return await reverseGeocodeNominatim(lat, lon, this._id);
+        } else if (this.geocodingOptions.service === 'Here') {
+            return await reverseGeocodeHere(lat, lon, this.geocodingOptions.key, this._id);
         } else {
             throw new Error('Invalid service');
         }
@@ -124,4 +129,5 @@ class NodeGeolocation {
     }
 }
 
+export * from './types.js';
 export default NodeGeolocation;

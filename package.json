@@ -1,7 +1,7 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.5.5",
-    "description": "NodeJS library that simplifies IP geolocation and related calculations.",
+    "version": "1.7.0",
+    "description": "NodeJS library that simplifies geolocation and related calculations.",
     "exports": {
         ".": {
             "import": {
@@ -52,13 +52,17 @@
         "Nominatim",
         "OpenStreetMap",
         "reverse geocoding",
-        "unit conversion"
+        "unit conversion",
+        "Here Maps",
+        "Here"
     ],
     "scripts": {
-        "build": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
-        "pretest": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
+        "build:win": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
+        "build:linux": "rm -rf lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js",
+        "build": "npm run build:win || npm run build:linux",
+        "pretest": "npm run build:win || npm run build:linux",
         "test": "jest",
-        "prepublish": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node extensionChanger.js"
+        "prepublishOnly": "npm run build"
     },
     "author": "alessandrofoglia07",
     "files": [
