@@ -5,7 +5,7 @@
 **nodejs-geolocation** is a lightweight library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
 
 [![npm version](https://img.shields.io/npm/v/nodejs-geolocation.svg?style=flat-square)](https://www.npmjs.org/package/nodejs-geolocation)
-[![install size](https://packagephobia.com/badge?p=nodejs-geolocation@1.8.0)](https://packagephobia.com/result?p=nodejs-geolocation@1.8.0)
+[![install size](https://packagephobia.com/badge?p=nodejs-geolocation@1.8.1)](https://packagephobia.com/result?p=nodejs-geolocation@1.8.1)
 [![GitHub](https://img.shields.io/github/license/alessandrofoglia07/nodejs-geolocation)](https://github.com/alessandrofoglia07/nodejs-geolocation/blob/main/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/alessandrofoglia07/nodejs-geolocation)](https://github.com/alessandrofoglia07/nodejs-geolocation)
 

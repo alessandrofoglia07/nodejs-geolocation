@@ -23,20 +23,14 @@ class NodeGeolocation {
      * @property service "Nominatim" | "Here"
      * @property key API key
      */
-    public geocodingOptions: GeocodingOptions = {
-        service: 'Nominatim',
-        key: ''
-    };
+    public geocodingOptions: GeocodingOptions = undefined;
 
     /**
      * Options for ip geolocation
      * @property service "ip2location" | "ipinfo"
      * @property key API key
      */
-    public ipGeolocationOptions: IPGeolocationOptions = {
-        service: 'ipinfo',
-        key: ''
-    };
+    public ipGeolocationOptions: IPGeolocationOptions = undefined;
 
     /**
      * Get geolocation from ip address

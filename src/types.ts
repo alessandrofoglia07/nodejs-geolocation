@@ -1,15 +1,12 @@
-interface ServiceOptions {
-    service: string;
-    key: string;
-}
-
-export interface IPGeolocationOptions extends ServiceOptions {
+export type IPGeolocationOptions = {
     service: 'ipinfo' | 'ip2location';
-}
+    key: string;
+} | undefined;
 
-export interface GeocodingOptions extends ServiceOptions {
+export type GeocodingOptions = {
     service: 'Nominatim' | 'Here';
-}
+    key: string;
+} | undefined;
 
 export interface GeolocationData {
     ip: string;

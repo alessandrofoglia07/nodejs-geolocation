@@ -1,7 +1,11 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "description": "NodeJS library that simplifies geolocation and related calculations.",
+    "funding": {
+        "type": "individual",
+        "url": "https://www.paypal.com/paypalme/AlessandroFoglia07"
+    },
     "exports": {
         ".": {
             "import": {
@@ -33,28 +37,28 @@
     "license": "MIT",
     "keywords": [
         "geolocation",
-        "geo",
-        "ip",
-        "location",
+        "Nominatim",
+        "ip2location",
+        "ipinfo",
+        "Here Maps",
+        "Here",
+        "OpenStreetMap",
         "node-geolocation",
-        "Node.js",
+        "ip",
+        "location-based services",
+        "distance calculation",
+        "geocoding",
+        "reverse geocoding",
+        "unit conversion",
+        "distance",
         "coordinates",
         "latitude",
         "longitude",
+        "location",
+        "geo",
+        "Node.js",
         "GPS",
-        "distance",
-        "location-based services",
-        "distance calculation",
-        "ipinfo",
-        "ip2location",
-        "harvesine formula",
-        "geocoding",
-        "Nominatim",
-        "OpenStreetMap",
-        "reverse geocoding",
-        "unit conversion",
-        "Here Maps",
-        "Here"
+        "harvesine formula"
     ],
     "scripts": {
         "build:win": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node transformer.js",
