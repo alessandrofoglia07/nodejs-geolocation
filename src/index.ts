@@ -1,6 +1,6 @@
 import getGeolocationIPInfo from './utils/ipInfoGeolocation.js';
 import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData } from './types.js';
 import calculateDistance from './utils/distanceCalculation.js';
 import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
 import { geocodeHere, reverseGeocodeHere } from './utils/geocodeHere.js';
@@ -45,12 +45,42 @@ class NodeGeolocation {
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
      */
-    public async getLocation(ip: string): Promise<GeolocationData | void> {
+    public async getLocation(ip: string): Promise<GeolocationData> {
         if (!this.ipGeolocationOptions) throw new Error('You must set ipGeolocationOptions object before using this method');
         if (this.ipGeolocationOptions.service === 'ip2location') {
-            return await getGeolocationIP2Location(ip, this.ipGeolocationOptions.key, this._id);
+            const data = await getGeolocationIP2Location(ip, this.ipGeolocationOptions.key, this._id);
+            return {
+                ip: data.ip,
+                city: data.city_name,
+                region: data.region_name,
+                countryCode: data.country_code,
+                timezone: data.time_zone,
+                position: {
+                    lat: data.latitude,
+                    lon: data.longitude
+                },
+                org: data.as,
+                asn: data.asn,
+                postal: data.zip_code,
+                raw: data
+            };
         } else if (this.ipGeolocationOptions.service === 'ipinfo') {
-            return await getGeolocationIPInfo(ip, this.ipGeolocationOptions.key, this._id);
+            const data = await getGeolocationIPInfo(ip, this.ipGeolocationOptions.key, this._id);
+            return {
+                ip: data.ip,
+                city: data.city,
+                region: data.region,
+                countryCode: data.country,
+                timezone: data.timezone,
+                position: {
+                    lat: parseFloat(data.loc.split(',')[0]),
+                    lon: parseFloat(data.loc.split(',')[1])
+                },
+                org: (data.org as string).slice((data.org as string).split('').indexOf(' ') + 1, data.org.length),
+                asn: (data.org as string).slice(0, (data.org as string).split('').indexOf(' ')),
+                postal: data.postal,
+                raw: data
+            };
         } else {
             throw new Error('Invalid service');
         }
@@ -74,12 +104,56 @@ class NodeGeolocation {
      * @param address Address string to geocode
      * @returns Geocoding data
      */
-    public async getGeocoding(address: string): Promise<unknown> {
+    public async getGeocoding(address: string): Promise<GeocodingData> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {
-            return await geocodeNominatim(address, this._id);
+            const data = await geocodeNominatim(address, this._id);
+            return {
+                id: data.place_id,
+                address: {
+                    city: data.address.city,
+                    county: data.address.county,
+                    country: data.address.country,
+                    state: data.address.state,
+                    countryCode: data.address.country_code,
+                },
+                position: {
+                    lat: parseFloat(data.lat),
+                    lon: parseFloat(data.lon)
+                },
+                displayName: data.display_name,
+                boundingBox: {
+                    north: parseFloat(data.boundingbox[1]),
+                    south: parseFloat(data.boundingbox[0]),
+                    east: parseFloat(data.boundingbox[3]),
+                    west: parseFloat(data.boundingbox[2])
+                },
+                raw: data
+            };
         } else if (this.geocodingOptions.service === 'Here') {
-            return await geocodeHere(address, this.geocodingOptions.key, this._id);
+            const data = await geocodeHere(address, this.geocodingOptions.key, this._id);
+            return {
+                id: data.id,
+                address: {
+                    city: data.address.city,
+                    county: data.address.county,
+                    country: data.address.countryName,
+                    state: data.address.state,
+                    countryCode: data.address.countryCode,
+                },
+                position: {
+                    lat: data.position.lat,
+                    lon: data.position.lng
+                },
+                displayName: data.title,
+                boundingBox: {
+                    north: data.mapView.north,
+                    south: data.mapView.south,
+                    east: data.mapView.east,
+                    west: data.mapView.west
+                },
+                raw: data
+            };
         } else {
             throw new Error('Invalid service');
         }
@@ -91,7 +165,7 @@ class NodeGeolocation {
      * @param pos Position to reverse geocode
      * @returns Reverse geocoding data
      */
-    public async getReverseGeocoding(pos: Position): Promise<unknown> {
+    public async getReverseGeocoding(pos: Position): Promise<ReverseGeocodingData> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
 
         let lat: number;

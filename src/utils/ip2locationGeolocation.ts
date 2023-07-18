@@ -1,4 +1,3 @@
-import { GeolocationData } from "../types.js";
 import httpsGet from "./httpsGet.js";
 
 /**
@@ -8,7 +7,7 @@ import httpsGet from "./httpsGet.js";
  * @param appID Application ID
  * @returns Geolocation object
  */
-const getGeolocationIP2Location = async (ip: string, key: string, appID: string): Promise<GeolocationData> => {
+const getGeolocationIP2Location = async (ip: string, key: string, appID: string): Promise<any> => {
     const url = `https://api.ip2location.io/?key=${key}&ip=${ip}&format=json`;
     const data = JSON.parse(await httpsGet(url, appID));
     if (data.error) throw new Error(data.error);

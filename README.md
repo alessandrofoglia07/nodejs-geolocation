@@ -5,12 +5,25 @@
 **nodejs-geolocation** is a lightweight library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
 
 [![npm version](https://img.shields.io/npm/v/nodejs-geolocation.svg?style=flat-square)](https://www.npmjs.org/package/nodejs-geolocation)
-[![install size](https://packagephobia.com/badge?p=nodejs-geolocation@1.7.4)](https://packagephobia.com/result?p=nodejs-geolocation@1.7.4)
+[![install size](https://packagephobia.com/badge?p=nodejs-geolocation@1.8.0)](https://packagephobia.com/result?p=nodejs-geolocation@1.8.0)
 [![GitHub](https://img.shields.io/github/license/alessandrofoglia07/nodejs-geolocation)](https://github.com/alessandrofoglia07/nodejs-geolocation/blob/main/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/alessandrofoglia07/nodejs-geolocation)](https://github.com/alessandrofoglia07/nodejs-geolocation)
 
 <br>
 </div>
+
+## Table of contents
+
+-   [Installation](#installation)
+-   [Loading and configuration](#loading-and-configuration)
+-   [Usage](#usage)
+    -   [IP Geolocating](#get-geolocation-data-from-ip-address)
+    -   [Distance calculator](#get-distance-between-two-points)
+    -   [Geocoding](#get-geocoding-data-from-address)
+    -   [Reverse geocoding](#get-reverse-geocoding-data-from-coordinates)
+    -   [Unit conversion](#unit-conversion)
+    -   [Typescript interfaces](#typescript-interfaces-ts-only)
+-   [License](#license)
 
 ## Installation
 
@@ -96,6 +109,28 @@ geo.getLocation('111.6.105.201')
     .catch((err) => {
         console.log(err);
     });
+```
+
+#### Result data
+
+The result data is automatically formatted in a standard format, regardless of the provider used.
+
+```typescript
+{
+    ip: string;
+    city: string;
+    region: string;
+    countryCode: string;
+    timezone: string;
+    position: {
+        lat: number;
+        lon: number;
+    }
+    org: string;
+    asn: string;
+    postal: string;
+    raw: any; // Raw data from provider for advanced usage
+}
 ```
 
 <br>
@@ -191,6 +226,35 @@ geo.getGeocoding('Rome, Italy')
     });
 ```
 
+#### Result data
+
+The result data is automatically formatted in a standard format, regardless of the provider used.
+
+```typescript
+{
+    id: string;
+    position: {
+        lat: number;
+        lon: number;
+    }
+    address: {
+        city: string;
+        county: string;
+        state: string;
+        country: string;
+        countryCode: string;
+    }
+    displayName: string;
+    boundingBox: {
+        north: number;
+        south: number;
+        east: number;
+        west: number;
+    }
+    raw: any; // Raw data from provider for advanced usage
+}
+```
+
 <br>
 
 ### Get reverse geocoding data from coordinates
@@ -246,6 +310,10 @@ geo.getReverseGeocoding(position)
         console.log(err);
     });
 ```
+
+#### Result data
+
+The result data of reverse geocoding is not formatted by nodejs-geolocation for more accuracy and flexibility. The result data is the raw data from the provider used.
 
 ### Unit conversion
 

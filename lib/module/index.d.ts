@@ -1,4 +1,4 @@
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData } from './types.js';
 /**
  * NodeGeolocation class
  * @constructor (applicationName: string)
@@ -26,7 +26,7 @@ declare class NodeGeolocation {
      * @param ip IP address to get geolocation from
      * @returns Geolocation object
      */
-    getLocation(ip: string): Promise<GeolocationData | void>;
+    getLocation(ip: string): Promise<GeolocationData>;
     /**
      * Calculates the distance between two points on earth using the haversine formula
      * @param pos1 First point
@@ -42,14 +42,14 @@ declare class NodeGeolocation {
      * @param address Address string to geocode
      * @returns Geocoding data
      */
-    getGeocoding(address: string): Promise<unknown>;
+    getGeocoding(address: string): Promise<GeocodingData>;
     /**
      * Get reverse geocoding data from a position
      * @Important **You must set geocodingOptions object before using this method**
      * @param pos Position to reverse geocode
      * @returns Reverse geocoding data
      */
-    getReverseGeocoding(pos: Position): Promise<unknown>;
+    getReverseGeocoding(pos: Position): Promise<ReverseGeocodingData>;
     /**
      * Built-in unit converter
      * @param value Value to convert

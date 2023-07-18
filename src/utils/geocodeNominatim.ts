@@ -6,7 +6,7 @@ import httpsGet from "./httpsGet.js";
  * @param appID Application ID
  * @returns Geocoded address 
  */
-export const geocodeNominatim = async (address: string, appID: string): Promise<unknown> => {
+export const geocodeNominatim = async (address: string, appID: string): Promise<any> => {
     const encodedAddress = encodeURIComponent(address);
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`;
 
@@ -42,7 +42,7 @@ export const geocodeNominatim = async (address: string, appID: string): Promise<
  * @param appID Application ID
  * @returns Reverse geocoded address
  */
-export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string): Promise<unknown> => {
+export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string): Promise<any> => {
     const encodedLat = encodeURIComponent(lat);
     const encodedLon = encodeURIComponent(lon);
 

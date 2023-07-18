@@ -16,9 +16,15 @@ describe('NodeGeolocation should return geolocation data correctly using IPInfo'
         };
         const data = await geo.getLocation(TESTIP!);
         expect(data).toBeDefined();
-        if (data) {
-            expect(data.ip).toBe(TESTIP);
-        }
+        expect(data.city).toBeDefined();
+        expect(data.region).toBeDefined();
+        expect(data.countryCode).toBeDefined();
+        expect(data.timezone).toBeDefined();
+        expect(data.position).toBeDefined();
+        expect(data.org).toBeDefined();
+        expect(data.asn).toBeDefined();
+        expect(data.postal).toBeDefined();
+        expect(data.raw).toBeDefined();
     });
 
     it('Should throw error if api key is not valid', async () => {
@@ -41,9 +47,16 @@ describe('NodeGeolocation should return geolocation data correctly using IP2Loca
         };
         const data = await geo.getLocation(TESTIP!);
         expect(data).toBeDefined();
-        if (data) {
-            expect(data.ip).toBe(TESTIP);
-        }
+        expect(data).toBeDefined();
+        expect(data.city).toBeDefined();
+        expect(data.region).toBeDefined();
+        expect(data.countryCode).toBeDefined();
+        expect(data.timezone).toBeDefined();
+        expect(data.position).toBeDefined();
+        expect(data.org).toBeDefined();
+        expect(data.asn).toBeDefined();
+        expect(data.postal).toBeDefined();
+        expect(data.raw).toBeDefined();
     });
 
     it('Should throw error if api key is not valid', async () => {

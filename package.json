@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.7.4",
+    "version": "1.8.0",
     "description": "NodeJS library that simplifies geolocation and related calculations.",
     "exports": {
         ".": {

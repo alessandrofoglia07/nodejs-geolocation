@@ -12,8 +12,8 @@ describe('NodeGeolocation should return geocoding data correctly using Nominatim
     it('Should return geocoding data', async () => {
         const data = await geo.getGeocoding('Rome, Italy');
         expect(data).toBeDefined();
-        expect(Math.floor(parseFloat(data.lat))).toBe(41);
-        expect(Math.floor(parseFloat(data.lon))).toBe(12);
+        expect(Math.floor(data.position.lat)).toBe(41);
+        expect(Math.floor(data.position.lon)).toBe(12);
     });
 
     it('Should throw error if location is not valid', async () => {
@@ -25,6 +25,7 @@ describe('NodeGeolocation should return geocoding data correctly using Nominatim
         expect(data).toBeDefined();
         expect(data.address.city).toBe("Roma");
         expect(data.address.country).toBe("Italia");
+        console.log(data);
     });
 });
 
@@ -40,7 +41,7 @@ describe('NodeGeolocation should return geocoding data correctly using Here', ()
         const data = await geo.getGeocoding('Rome, Italy');
         expect(data).toBeDefined();
         expect(Math.floor(data.position.lat)).toBe(41);
-        expect(Math.floor(data.position.lng)).toBe(12);
+        expect(Math.floor(data.position.lon)).toBe(12);
     });
 
     it('Should return reverse geocoding data', async () => {
@@ -48,5 +49,6 @@ describe('NodeGeolocation should return geocoding data correctly using Here', ()
         expect(data).toBeDefined();
         expect(data.address.city).toBe("Rome");
         expect(data.address.countryName).toBe("Italy");
+        console.log(data);
     });
 });
