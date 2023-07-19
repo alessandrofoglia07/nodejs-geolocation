@@ -1,5 +1,7 @@
 <div align='center'>
 
+<br>
+
 # **nodejs-geolocation**
 
 **nodejs-geolocation** is a lightweight library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
@@ -21,9 +23,12 @@
     -   [Distance calculator](#get-distance-between-two-points)
     -   [Geocoding](#get-geocoding-data-from-address)
     -   [Reverse geocoding](#get-reverse-geocoding-data-from-coordinates)
+    -   [Timezone converter](#timezone-converter)
     -   [Unit conversion](#unit-conversion)
     -   [Typescript interfaces](#typescript-interfaces-ts-only)
 -   [License](#license)
+
+<br>
 
 ## Installation
 
@@ -44,7 +49,7 @@ nodejs-geolocation supports both CommonJS and ES Modules.
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
 
-const geo = new NodeGeolocation('applicationName');
+const geo = new NodeGeolocation('<ApplicationName>');
 ```
 
 ### CommonJS
@@ -52,7 +57,7 @@ const geo = new NodeGeolocation('applicationName');
 ```javascript
 const NodeGeolocation = require('nodejs-geolocation').default;
 
-const geo = new NodeGeolocation('applicationName');
+const geo = new NodeGeolocation('<ApplicationName>');
 ```
 
 <br>
@@ -315,6 +320,46 @@ geo.getReverseGeocoding(position)
 
 The result data of reverse geocoding is not formatted by nodejs-geolocation for more accuracy and flexibility. The result data is the raw data from the provider used.
 
+<br>
+
+### Timezone converter
+
+Converting timezones is usually tough, but nodejs-geolocation makes it easy with an integrated timezone converter.
+
+```typescript
+import NodeGeolocation from 'nodejs-geolocation';
+
+const geo = new NodeGeolocation('MyApp');
+
+const from = 'PST';
+const to = 'UTC+3';
+const datePST = new Date('2022-01-01T00:00:00Z');
+
+const dateUTC3 = geo.timeZoneConvert(date, from, to);
+
+console.log(dateUTC3.toISOString()); // "2022-01-01T11:00:00.000Z"
+```
+
+#### Timezone type (Supported formats)
+
+```typescript
+type Timezone =
+  | 'GMT'
+  | 'UTC'
+  | `UTC${'+' | '-'}${number}`
+  | `UTC${'+' | '-'}${number}:${number}`
+  | 'EST'
+  | 'CST'
+  | 'PST'
+  | 'ChinaST'
+  | 'IST'
+  | 'EET'
+  | 'CET'
+  | 'AEST`;
+```
+
+<br>
+
 ### Unit conversion
 
 nodejs-geolocation comes with a built-in unit conversion method.
@@ -334,6 +379,8 @@ const km = geo.convertUnit(1500, 'm', 'km');
 console.log(km); // 1.5
 ```
 
+<br>
+
 ### Typescript interfaces (TS only)
 
 You can import the interfaces from the package to use them in your project.
@@ -352,6 +399,8 @@ const options: DistanceCalculationOptions = {
     exact: true
 };
 ```
+
+<br>
 
 ## License
 

@@ -21,6 +21,8 @@ export interface GeolocationData {
     raw: Record<string, any>;
 }
 
+export type Timezone = `GMT` | 'UTC' | `UTC${'+' | '-'}${number}` | `UTC${'+' | '-'}${number}:${number}` | 'EST' | 'CST' | 'PST' | 'ChinaST' | 'IST' | 'EET' | 'CET' | 'AEST';
+
 export interface GeocodingData {
     id: string;
     position: FormatPosition;

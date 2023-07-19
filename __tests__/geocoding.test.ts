@@ -25,7 +25,6 @@ describe('NodeGeolocation should return geocoding data correctly using Nominatim
         expect(data).toBeDefined();
         expect(data.address.city).toBe("Roma");
         expect(data.address.country).toBe("Italia");
-        console.log(data);
     });
 });
 
@@ -49,6 +48,5 @@ describe('NodeGeolocation should return geocoding data correctly using Here', ()
         expect(data).toBeDefined();
         expect(data.address.city).toBe("Rome");
         expect(data.address.countryName).toBe("Italy");
-        console.log(data);
     });
 });

@@ -1,4 +1,4 @@
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData } from './types.cjs';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData, Timezone } from './types.cjs';
 /**
  * NodeGeolocation class
  * @constructor (applicationName: string)
@@ -58,6 +58,14 @@ declare class NodeGeolocation {
      * @returns Converted value
      */
     convertUnit(value: number, from: Unit, to: Unit): number;
+    private readonly timezones;
+    /**
+     * Converts a date from one timezone to another
+     * @param date The date to convert
+     * @param from The timezone to convert from
+     * @param to The timezone to convert to
+     */
+    timeZoneConvert(date: Date, from: Timezone, to: Timezone): Date;
 }
 export * from './types.cjs';
 export default NodeGeolocation;

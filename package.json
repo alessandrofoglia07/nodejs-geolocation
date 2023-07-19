@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "1.8.1",
+    "version": "2.0.0",
     "description": "NodeJS library that simplifies geolocation and related calculations.",
     "funding": {
         "type": "individual",
@@ -64,8 +64,10 @@
         "build:win": "rmdir /s /q lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node transformer.js",
         "build:linux": "rm -rf lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node transformer.js",
         "build": "npm run build:win || npm run build:linux",
+        "firstBuild": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node transformer.js",
         "pretest": "npm run build:win || npm run build:linux",
         "test": "jest",
+        "coverage": "jest --coverage",
         "prepublishOnly": "npm run build",
         "lint": "eslint . --ext .ts",
         "fixLint": "eslint . --ext .ts --fix"

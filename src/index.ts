@@ -1,9 +1,10 @@
 import getGeolocationIPInfo from './utils/ipInfoGeolocation.js';
 import getGeolocationIP2Location from './utils/ip2locationGeolocation.js';
-import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData } from './types.js';
+import { GeolocationData, Position, DistanceCalculationOptions, GeocodingOptions, IPGeolocationOptions, Unit, GeocodingData, ReverseGeocodingData, Timezone } from './types.js';
 import calculateDistance from './utils/distanceCalculation.js';
 import { geocodeNominatim, reverseGeocodeNominatim } from './utils/geocodeNominatim.js';
 import { geocodeHere, reverseGeocodeHere } from './utils/geocodeHere.js';
+import geoOffset from './utils/geoOffset.js';
 
 /**
  * NodeGeolocation class
@@ -203,9 +204,50 @@ class NodeGeolocation {
             ft: 0.3048
         };
 
-        const result = value * units[from] / units[to];
+        return value * units[from] / units[to];
+    }
 
-        return result;
+    private readonly timezones: Map<Timezone, Timezone> = new Map([
+        ['GMT', 'UTC+0'],
+        ['UTC', 'UTC+0'],
+        ['EST', 'UTC-5'],
+        ['CST', 'UTC-6'],
+        ['PST', 'UTC-8'],
+        ['ChinaST', 'UTC+8'],
+        ['IST', 'UTC+5:30'],
+        ['EET', 'UTC+2'],
+        ['CET', 'UTC+1'],
+        ['AEST', 'UTC+10'],
+    ]);
+
+    // fix this (check moment js)
+    /**
+     * Converts a date from one timezone to another
+     * @param date The date to convert
+     * @param from The timezone to convert from
+     * @param to The timezone to convert to
+     */
+    public timeZoneConvert(date: Date, from: Timezone, to: Timezone): Date {
+        if (from === to) return date;
+
+        let newFrom: Timezone | undefined = from;
+        if (!newFrom.includes('UTC')) {
+            newFrom = this.timezones.get(from);
+            if (!newFrom) throw new Error('Invalid timezone');
+        }
+
+        let newTo: Timezone | undefined = to;
+        if (!newTo.includes('UTC')) {
+            newTo = this.timezones.get(to);
+            if (!newTo) throw new Error('Invalid timezone');
+        }
+
+        const fromOffset = geoOffset(newFrom);
+        const toOffset = geoOffset(newTo);
+        const offset = toOffset - fromOffset;
+        const newDate = new Date(date.getTime() + offset * 60 * 60 * 1000);
+
+        return newDate;
     }
 }
 
