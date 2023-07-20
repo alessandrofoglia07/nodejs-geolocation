@@ -1,6 +1,6 @@
 {
     "name": "nodejs-geolocation",
-    "version": "2.0.0",
+    "version": "2.2.0",
     "description": "NodeJS library that simplifies geolocation and related calculations.",
     "funding": {
         "type": "individual",
@@ -37,6 +37,7 @@
     "license": "MIT",
     "keywords": [
         "geolocation",
+        "geofencing",
         "Nominatim",
         "ip2location",
         "ipinfo",
@@ -50,6 +51,9 @@
         "geocoding",
         "reverse geocoding",
         "unit conversion",
+        "time zone",
+        "timezone",
+        "timezone conversion",
         "distance",
         "coordinates",
         "latitude",

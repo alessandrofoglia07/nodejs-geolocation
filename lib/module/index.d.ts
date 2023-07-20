@@ -67,5 +67,6 @@ declare class NodeGeolocation {
      */
     timeZoneConvert(date: Date, from: Timezone, to: Timezone): Date;
 }
+export { Geofencing } from './geofencing.js';
 export * from './types.js';
 export default NodeGeolocation;

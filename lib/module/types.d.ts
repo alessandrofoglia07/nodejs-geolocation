@@ -58,4 +58,10 @@ export interface DistanceCalculationOptions {
     format?: boolean;
     exact?: boolean;
 }
+export interface Geofence {
+    id: string;
+    position: FormatPosition;
+    radius: number;
+    metadata?: Record<string, any>;
+}
 export {};

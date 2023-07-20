@@ -4,7 +4,7 @@
 
 # **nodejs-geolocation**
 
-**nodejs-geolocation** is a lightweight library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
+**nodejs-geolocation** is a Node.js library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
 
 [![npm version](https://img.shields.io/npm/v/nodejs-geolocation.svg?style=flat-square)](https://www.npmjs.org/package/nodejs-geolocation)
 [![install size](https://packagephobia.com/badge?p=nodejs-geolocation@2.0.0)](https://packagephobia.com/result?p=nodejs-geolocation@2.0.0)
@@ -20,9 +20,10 @@
 -   [Loading and configuration](#loading-and-configuration)
 -   [Usage](#usage)
     -   [IP Geolocating](#get-geolocation-data-from-ip-address)
-    -   [Distance calculator](#get-distance-between-two-points)
     -   [Geocoding](#get-geocoding-data-from-address)
     -   [Reverse geocoding](#get-reverse-geocoding-data-from-coordinates)
+    -   [Geofencing](#geofencing)
+    -   [Distance calculator](#get-distance-between-two-points)
     -   [Timezone converter](#timezone-converter)
     -   [Unit conversion](#unit-conversion)
     -   [Typescript interfaces](#typescript-interfaces-ts-only)
@@ -136,47 +137,6 @@ The result data is automatically formatted in a standard format, regardless of t
     postal: string;
     raw: any; // Raw data from provider for advanced usage
 }
-```
-
-<br>
-
-### Get distance between two points
-
-nodejs-geolocation uses the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula) to calculate the distance between two points on earth, based on their coordinates.
-
-```typescript
-import NodeGeolocation from 'nodejs-geolocation';
-
-const geo = new NodeGeolocation('MyApp');
-
-/**
- * Accepted position formats:
- * { lat: number, lon: number }
- * { latitude: number, longitude: number }
- * { x: number, y: number }
- */
-
-// Rome, Italy
-const pos1 = { lat: 41.902782, lon: 12.496366 };
-// Tokyo, Japan
-const pos2 = { latitude: 35.685013, longitude: 139.7514 };
-
-const distance = geo.calculateDistance(pos1, pos2);
-console.log(distance); // 9857
-
-/**
- * Options object
- * unit?: 'km' | 'yd' | 'mi' | 'm' | 'ft'
- * format?: boolean
- * exact?: boolean
- */
-// Result:
-
-console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi' })); // 6125
-
-console.log(geo.calculateDistance(pos1, pos2, { format: true })); // "9857 kilometers"
-
-console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true })); // 6124.860370167203
 ```
 
 <br>
@@ -319,6 +279,103 @@ geo.getReverseGeocoding(position)
 #### Result data
 
 The result data of reverse geocoding is not formatted by nodejs-geolocation for more accuracy and flexibility. The result data is the raw data from the provider used.
+
+<br>
+
+### Geofencing
+
+nodejs-geolocation has a built-in geofencing system that allows you to check if a point is inside a polygon.
+
+```typescript
+import { Geofencing } from 'nodejs-geolocation';
+
+const geofencing = new Geofencing();
+
+// Add a geofence
+// addGeofence(id: string, position: Position, radius: number, metadataObject?: any)
+geofencing.addGeofence('home', { lat: 40.7128, lon: -74.006 }, 1000, { description: 'Home sweet home' });
+
+// Check if a point is inside a geofence
+// isInsideGeofence(id: string, position: Position)
+const isInside = geofencing.isInsideGeofence('home', { lat: 40.7128, lon: -74.006 });
+
+console.log(isInside); // true
+
+// Get all geofences
+const geofences = geofencing.getGeofences();
+
+// Remove a geofence
+// removeGeofence(id: string)
+geofencing.removeGeofence('home');
+
+// Remove all geofences
+geofencing.clearGeofences();
+```
+
+You can even use the geofencing system with **events**. With the `updateLocation()` method, you can update the position of an object and if that enters or leaves a geofence, an event will be triggered.
+
+```typescript
+import { Geofencing } from 'nodejs-geolcation';
+
+const geofencing = new Geofencing();
+
+// Add a geofence
+geofencing.addGeofence('home', { lat: 40.7128, lon: -74.006 }, 1000, { description: 'Home sweet home' });
+
+// Add the event listeners
+geofencing.on('enter', (geofence) => {
+    console.log(`Entered geofence ${geofence.id}`);
+});
+
+geofencing.on('exit', (geofence) => {
+    console.log(`Exited geofence ${geofence.id}`);
+});
+
+// Update location method
+// updateLocation(position: Position)
+geofencing.updateLocation({ latitude: 40.712, longitude: -74.0065 }); // trigger 'enter' event for geofence 'home'
+```
+
+<br>
+
+### Get distance between two points
+
+nodejs-geolocation uses the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula) to calculate the distance between two points on earth, based on their coordinates.
+
+```typescript
+import NodeGeolocation from 'nodejs-geolocation';
+
+const geo = new NodeGeolocation('MyApp');
+
+/**
+ * Accepted position formats:
+ * { lat: number, lon: number }
+ * { latitude: number, longitude: number }
+ * { x: number, y: number }
+ */
+
+// Rome, Italy
+const pos1 = { lat: 41.902782, lon: 12.496366 };
+// Tokyo, Japan
+const pos2 = { latitude: 35.685013, longitude: 139.7514 };
+
+const distance = geo.calculateDistance(pos1, pos2);
+console.log(distance); // 9857
+
+/**
+ * Options object
+ * unit?: 'km' | 'yd' | 'mi' | 'm' | 'ft'
+ * format?: boolean
+ * exact?: boolean
+ */
+// Result:
+
+console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi' })); // 6125
+
+console.log(geo.calculateDistance(pos1, pos2, { format: true })); // "9857 kilometers"
+
+console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true })); // 6124.860370167203
+```
 
 <br>
 

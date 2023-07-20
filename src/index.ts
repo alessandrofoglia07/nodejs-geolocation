@@ -251,5 +251,6 @@ class NodeGeolocation {
     }
 }
 
+export { Geofencing } from './geofencing.js';
 export * from './types.js';
 export default NodeGeolocation;
