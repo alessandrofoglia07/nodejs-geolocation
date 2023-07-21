@@ -47,7 +47,7 @@ export interface ReverseGeocodingData {
     [key: string]: any;
 }
 
-interface FormatPosition {
+export interface FormatPosition {
     lat: number;
     lon: number;
 }

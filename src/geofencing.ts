@@ -1,17 +1,31 @@
 import EventEmitter from 'events';
-import { Geofence, Position } from './types.js';
+import { Geofence, Position, FormatPosition } from './types.js';
 import calculateDistance from './utils/distanceCalculation.js';
+import toFormatPos from './utils/toFormatPosition.js';
 
 /**
  * Geofencing class
- * @constructor ()
+ * @constructor (initPosition: Position)
  */
 export class Geofencing extends EventEmitter {
 
     private geofences: Geofence[] = [];
+    private _position: FormatPosition = {
+        lat: 0,
+        lon: 0
+    };
+    private posInGeofences = new Map<string, boolean>([]);
 
-    constructor() {
+    public get position(): FormatPosition {
+        return this._position;
+    }
+
+    constructor(initPos?: Position) {
         super();
+
+        if (!initPos) return;
+
+        this._position = toFormatPos(initPos);
     }
 
     /**
@@ -23,21 +37,7 @@ export class Geofencing extends EventEmitter {
      * @returns void
      */
     public addGeofence(id: string, pos: Position, radius: number, metadata: Record<string, any> = {}) {
-        let lat: number;
-        let lon: number;
-
-        if ('lat' in pos && 'lon' in pos) {
-            lat = pos.lat;
-            lon = pos.lon;
-        } else if ('latitude' in pos && 'longitude' in pos) {
-            lat = pos.latitude;
-            lon = pos.longitude;
-        } else if ('x' in pos && 'y' in pos) {
-            lat = pos.x;
-            lon = pos.y;
-        } else {
-            throw new Error('Invalid position');
-        }
+        const { lat, lon } = toFormatPos(pos);
 
         if (this.geofences.some(geofence => geofence.id === id)) throw new Error('Geofence already exists');
 
@@ -50,6 +50,9 @@ export class Geofencing extends EventEmitter {
             radius,
             metadata
         });
+
+        const isInside = this.isInsideGeofence({ lat, lon }, id);
+        this.posInGeofences.set(id, isInside);
     }
 
     /**
@@ -71,6 +74,8 @@ export class Geofencing extends EventEmitter {
         if (!geofence) throw new Error('Geofence does not exist');
 
         this.geofences = this.geofences.filter(geofence => geofence.id !== id);
+
+        this.posInGeofences.delete(id);
     }
 
     /**
@@ -79,6 +84,7 @@ export class Geofencing extends EventEmitter {
      */
     public clearGeofences() {
         this.geofences = [];
+        this.posInGeofences.clear();
     }
 
     /**
@@ -87,29 +93,19 @@ export class Geofencing extends EventEmitter {
      * @returns void
      */
     public updateLocation(pos: Position) {
-        let lat: number;
-        let lon: number;
+        const { lat, lon } = toFormatPos(pos);
 
-        if ('lat' in pos && 'lon' in pos) {
-            lat = pos.lat;
-            lon = pos.lon;
-        } else if ('latitude' in pos && 'longitude' in pos) {
-            lat = pos.latitude;
-            lon = pos.longitude;
-        } else if ('x' in pos && 'y' in pos) {
-            lat = pos.x;
-            lon = pos.y;
-        } else {
-            throw new Error('Invalid position');
-        }
+        this._position = { lat, lon };
 
         this.geofences.forEach(geofence => {
             const distance = calculateDistance({ lat, lon }, { lat: geofence.position.lat, lon: geofence.position.lon }) as number;
 
-            if (distance <= geofence.radius) {
+            if (distance <= geofence.radius && !this.posInGeofences.get(geofence.id)) {
                 this.emit('enter', geofence);
-            } else {
+                this.posInGeofences.set(geofence.id, true);
+            } else if (distance > geofence.radius && this.posInGeofences.get(geofence.id)) {
                 this.emit('exit', geofence);
+                this.posInGeofences.set(geofence.id, false);
             }
         });
     }
@@ -121,21 +117,7 @@ export class Geofencing extends EventEmitter {
      * @returns Whether the position is inside the geofence or not
      */
     public isInsideGeofence(pos: Position, geofenceID: string) {
-        let lat: number;
-        let lon: number;
-
-        if ('lat' in pos && 'lon' in pos) {
-            lat = pos.lat;
-            lon = pos.lon;
-        } else if ('latitude' in pos && 'longitude' in pos) {
-            lat = pos.latitude;
-            lon = pos.longitude;
-        } else if ('x' in pos && 'y' in pos) {
-            lat = pos.x;
-            lon = pos.y;
-        } else {
-            throw new Error('Invalid position');
-        }
+        const { lat, lon } = toFormatPos(pos);
 
         const geofence = this.geofences.find(geofence => geofence.id === geofenceID);
 

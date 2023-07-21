@@ -1,13 +1,16 @@
 /// <reference types="node" />
 import EventEmitter from 'events';
-import { Geofence, Position } from './types.js';
+import { Geofence, Position, FormatPosition } from './types.js';
 /**
  * Geofencing class
- * @constructor ()
+ * @constructor (initPosition: Position)
  */
 export declare class Geofencing extends EventEmitter {
     private geofences;
-    constructor();
+    private _position;
+    private posInGeofences;
+    get position(): FormatPosition;
+    constructor(initPos?: Position);
     /**
      * Add a geofence
      * @param id Geofence ID
@@ -39,5 +42,11 @@ export declare class Geofencing extends EventEmitter {
      * @returns void
      */
     updateLocation(pos: Position): void;
+    /**
+     * Check if a position is inside a geofence
+     * @param pos Position to check
+     * @param geofenceID Geofence ID to check
+     * @returns Whether the position is inside the geofence or not
+     */
     isInsideGeofence(pos: Position, geofenceID: string): boolean;
 }
