@@ -2,7 +2,7 @@
 
 <br>
 
-# **nodejs-geolocation**
+<h1 style="font-weight:700">nodejs-geolocation</h1>
 
 **nodejs-geolocation** is a Node.js library that bundles all the most important geolocation tools and services, simplifying geolocation tasks and calculations.
 
@@ -14,22 +14,47 @@
 <br>
 </div>
 
-## Table of contents
+<h2>Table of contents</h2>
 
--   [Installation](#installation)
--   [Loading and configuration](#loading-and-configuration)
--   [Usage](#usage)
-    -   [IP Geolocating](#get-geolocation-data-from-ip-address)
-    -   [Geocoding](#get-geocoding-data-from-address)
-    -   [Reverse geocoding](#get-reverse-geocoding-data-from-coordinates)
-    -   [Geofencing](#geofencing)
-    -   [Distance calculator](#get-distance-between-two-points)
-    -   [Timezone converter](#timezone-converter)
-    -   [Unit conversion](#unit-conversion)
-    -   [Typescript interfaces](#typescript-interfaces-ts-only)
--   [License](#license)
+- [Supported Providers](#supported-providers)
+- [Installation](#installation)
+- [Loading and configuration](#loading-and-configuration)
+  - [ES Modules / TypeScript (recommended)](#es-modules--typescript-recommended)
+  - [CommonJS](#commonjs)
+- [Usage](#usage)
+  - [Get geolocation data from IP address](#get-geolocation-data-from-ip-address)
+    - [IPInfo Get your API key](#ipinfo-get-your-api-key)
+    - [IP2Location Get your API key](#ip2location-get-your-api-key)
+    - [Result data](#result-data)
+  - [Get geocoding data from address](#get-geocoding-data-from-address)
+    - [OpenStreetMap Nominatim API](#openstreetmap-nominatim-api)
+    - [Here Location API Get your API key](#here-location-api-get-your-api-key)
+    - [Result data](#result-data-1)
+  - [Get reverse geocoding data from coordinates](#get-reverse-geocoding-data-from-coordinates)
+    - [OpenStreetMap Nominatim API](#openstreetmap-nominatim-api-1)
+    - [Here Location API Get your API key](#here-location-api-get-your-api-key-1)
+    - [Result data](#result-data-2)
+  - [Geofencing](#geofencing)
+  - [Get distance between two points](#get-distance-between-two-points)
+  - [Timezone converter](#timezone-converter)
+    - [Timezone type (Supported formats)](#timezone-type-supported-formats)
+  - [Unit conversion](#unit-conversion)
+  - [Typescript interfaces (TS only)](#typescript-interfaces-ts-only)
+- [License](#license)
 
 <br>
+
+## Supported Providers
+
+`nodejs-geolocation` supports the following IP geolocation providers:
+
+-   [IPInfo](https://ipinfo.io/)
+-   [IP2Location](https://www.ip2location.com/)
+
+`nodejs-geolocation` supports the following geocoding providers:
+
+-   [OpenStreetMap Nominatim API](https://nominatim.org/)
+-   [Here Location API](https://developer.here.com/)
 
 ## Installation
 
@@ -43,7 +68,7 @@ npm install nodejs-geolocation
 
 ## Loading and configuration
 
-nodejs-geolocation supports both CommonJS and ES Modules.
+`nodejs-geolocation` supports both CommonJS and ES Modules.
 
 ### ES Modules / TypeScript (recommended)
 
@@ -67,7 +92,7 @@ const geo = new NodeGeolocation('<ApplicationName>');
 
 ### Get geolocation data from IP address
 
-nodejs-geolocation supports **IPInfo** and **IP2Location** as geolocation providers.
+`nodejs-geolocation` supports **IPInfo** and **IP2Location** as geolocation providers.
 <br/>
 The examples are written in TypeScript, but the same methods are available in JavaScript.
 
@@ -143,7 +168,7 @@ The result data is automatically formatted in a standard format, regardless of t
 
 ### Get geocoding data from address
 
-nodejs-geolocation supports **OpenStreetMap Nominatim API** and **Here Location API** as geocoding provider.
+`nodejs-geolocation` supports **OpenStreetMap Nominatim API** and **Here Location API** as geocoding provider.
 
 #### OpenStreetMap Nominatim API
 
@@ -224,7 +249,7 @@ The result data is automatically formatted in a standard format, regardless of t
 
 ### Get reverse geocoding data from coordinates
 
-nodejs-geolocation supports **OpenStreetMap Nominatim API** and **Here Location API** as reverse geocoding provider.
+`nodejs-geolocation` supports **OpenStreetMap Nominatim API** and **Here Location API** as reverse geocoding provider.
 
 #### OpenStreetMap Nominatim API
 
@@ -278,13 +303,13 @@ geo.getReverseGeocoding(position)
 
 #### Result data
 
-The result data of reverse geocoding is not formatted by nodejs-geolocation for more accuracy and flexibility. The result data is the raw data from the provider used.
+The result data of reverse geocoding is not formatted by `nodejs-geolocation` for more accuracy and flexibility. The result data is the raw data from the provider used.
 
 <br>
 
 ### Geofencing
 
-nodejs-geolocation has a built-in geofencing system that allows you to check if a point is inside a polygon.
+`nodejs-geolocation` has a built-in geofencing system that allows you to check if a point is inside a polygon.
 
 ```typescript
 import { Geofencing } from 'nodejs-geolocation';
@@ -340,7 +365,7 @@ geofencing.updateLocation({ latitude: 40.712, longitude: -74.0065 }); // trigger
 
 ### Get distance between two points
 
-nodejs-geolocation uses the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula) to calculate the distance between two points on earth, based on their coordinates.
+`nodejs-geolocation` uses the [Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula) to calculate the distance between two points on earth, based on their coordinates.
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
@@ -381,7 +406,7 @@ console.log(geo.calculateDistance(pos1, pos2, { unit: 'mi', exact: true })); // 
 
 ### Timezone converter
 
-Converting timezones is usually tough, but nodejs-geolocation makes it easy with an integrated timezone converter.
+Converting timezones is usually tough, but `nodejs-geolocation` makes it easy with an integrated timezone converter.
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
@@ -419,7 +444,7 @@ type Timezone =
 
 ### Unit conversion
 
-nodejs-geolocation comes with a built-in unit conversion method.
+`nodejs-geolocation` comes with a built-in unit conversion method.
 
 ```typescript
 import NodeGeolocation from 'nodejs-geolocation';
