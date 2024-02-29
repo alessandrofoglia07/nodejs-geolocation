@@ -99,10 +99,10 @@ class NodeGeolocation {
      * @param address Address string to geocode
      * @returns Geocoding data
      */
-    public async getGeocoding(address: string): Promise<GeocodingData> {
+    public async getGeocoding(address: string, queryParameters?: Record<string, string>): Promise<GeocodingData> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
         if (this.geocodingOptions.service === 'Nominatim') {
-            const data = await geocodeNominatim(address, this._id);
+            const data = await geocodeNominatim(address, this._id, queryParameters);
             return {
                 id: data.place_id,
                 address: {
@@ -126,7 +126,7 @@ class NodeGeolocation {
                 raw: data
             };
         } else if (this.geocodingOptions.service === 'Here') {
-            const data = await geocodeHere(address, this.geocodingOptions.key, this._id);
+            const data = await geocodeHere(address, this.geocodingOptions.key, this._id, queryParameters);
             return {
                 id: data.id,
                 address: {
@@ -160,7 +160,7 @@ class NodeGeolocation {
      * @param pos Position to reverse geocode
      * @returns Reverse geocoding data
      */
-    public async getReverseGeocoding(pos: Position): Promise<ReverseGeocodingData> {
+    public async getReverseGeocoding(pos: Position, queryParameters?: Record<string, string>): Promise<ReverseGeocodingData> {
         if (!this.geocodingOptions) throw new Error('You must set geocodingOptions object before using this method');
 
         let lat: number;
@@ -180,9 +180,9 @@ class NodeGeolocation {
         }
 
         if (this.geocodingOptions.service === 'Nominatim') {
-            return await reverseGeocodeNominatim(lat, lon, this._id);
+            return await reverseGeocodeNominatim(lat, lon, this._id, queryParameters);
         } else if (this.geocodingOptions.service === 'Here') {
-            return await reverseGeocodeHere(lat, lon, this.geocodingOptions.key, this._id);
+            return await reverseGeocodeHere(lat, lon, this.geocodingOptions.key, this._id, queryParameters);
         } else {
             throw new Error('Invalid service');
         }
