@@ -4,14 +4,21 @@ import httpsGet from "./httpsGet.js";
  * Geocode address using Nominatim
  * @param address Address to geocode
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Geocoded address 
  */
-export const geocodeNominatim = async (address: string, appID: string): Promise<any> => {
+export const geocodeNominatim = async (address: string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {
     const encodedAddress = encodeURIComponent(address);
-    const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`;
+    const apiUrl = new URL(`https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&limit=1`);
+
+    if (queryParameters) {
+        for (const key in queryParameters) {
+            apiUrl.searchParams.append(key, queryParameters[key]);
+        }
+    }
 
     try {
-        const res = await httpsGet(apiUrl, appID);
+        const res = await httpsGet(apiUrl.toString(), appID);
 
         if (res.startsWith('<html>')) {
             throw new Error(res);
@@ -40,16 +47,23 @@ export const geocodeNominatim = async (address: string, appID: string): Promise<
  * @param lat Latitude
  * @param lon Longitude
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Reverse geocoded address
  */
-export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string): Promise<any> => {
+export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {
     const encodedLat = encodeURIComponent(lat);
     const encodedLon = encodeURIComponent(lon);
 
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${encodedLat}&lon=${encodedLon}`;
+    const apiUrl = new URL(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${encodedLat}&lon=${encodedLon}`);
+
+    if (queryParameters) {
+        for (const key in queryParameters) {
+            apiUrl.searchParams.append(key, queryParameters[key]);
+        }
+    }
 
     try {
-        const res = await httpsGet(apiUrl, appID);
+        const res = await httpsGet(apiUrl.toString(), appID);
 
         if (res.startsWith('<html>')) {
             throw new Error(res);

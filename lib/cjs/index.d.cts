@@ -42,14 +42,14 @@ declare class NodeGeolocation {
      * @param address Address string to geocode
      * @returns Geocoding data
      */
-    getGeocoding(address: string): Promise<GeocodingData>;
+    getGeocoding(address: string, queryParameters?: Record<string, string>): Promise<GeocodingData>;
     /**
      * Get reverse geocoding data from a position
      * @Important **You must set geocodingOptions object before using this method**
      * @param pos Position to reverse geocode
      * @returns Reverse geocoding data
      */
-    getReverseGeocoding(pos: Position): Promise<ReverseGeocodingData>;
+    getReverseGeocoding(pos: Position, queryParameters?: Record<string, string>): Promise<ReverseGeocodingData>;
     /**
      * Built-in unit converter
      * @param value Value to convert
