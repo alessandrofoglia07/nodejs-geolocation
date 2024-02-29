@@ -4,6 +4,7 @@ import httpsGet from "./httpsGet.js";
  * Geocode address using Nominatim
  * @param address Address to geocode
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Geocoded address 
  */
 export const geocodeNominatim = async (address: string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {
@@ -46,6 +47,7 @@ export const geocodeNominatim = async (address: string, appID: string, queryPara
  * @param lat Latitude
  * @param lon Longitude
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Reverse geocoded address
  */
 export const reverseGeocodeNominatim = async (lat: number | string, lon: number | string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {
