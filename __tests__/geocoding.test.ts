@@ -26,6 +26,13 @@ describe('NodeGeolocation should return geocoding data correctly using Nominatim
         expect(data.address.city).toBe("Roma");
         expect(data.address.country).toBe("Italia");
     });
+
+    it('Should work with additional query parameters', async () => {
+        const data = await geo.getGeocoding('Rome, Italy', { format: 'json' });
+        expect(data).toBeDefined();
+        expect(data.address.city).toBe("Roma");
+        expect(data.address.country).toBe("Italia");
+    });
 });
 
 describe('NodeGeolocation should return geocoding data correctly using Here', () => {
@@ -46,7 +53,14 @@ describe('NodeGeolocation should return geocoding data correctly using Here', ()
     it('Should return reverse geocoding data', async () => {
         const data = await geo.getReverseGeocoding({ lat: 41.8933203, lon: 12.4829321 });
         expect(data).toBeDefined();
-        expect(data.address.city).toBe("Rome");
-        expect(data.address.countryName).toBe("Italy");
+        expect(data.address.city).toBe("Roma");
+        expect(data.address.countryName).toBe("Italia");
+    });
+
+    it('Should work with additional query parameters', async () => {
+        const data = await geo.getGeocoding('Rome, Italy', { lang: 'it' });
+        expect(data).toBeDefined();
+        expect(data.address.city).toBe("Roma");
+        expect(data.address.country).toBe("Italia");
     });
 });
