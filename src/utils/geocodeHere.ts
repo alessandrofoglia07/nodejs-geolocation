@@ -5,6 +5,7 @@ import httpsGet from "./httpsGet.js";
  * @param address Address to geocode
  * @param apiKey API key
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Geocoded address
  */
 export const geocodeHere = async (address: string, apiKey: string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {
@@ -32,6 +33,7 @@ export const geocodeHere = async (address: string, apiKey: string, appID: string
  * @param lon Longitude
  * @param apiKey API key
  * @param appID Application ID
+ * @param queryParameters Query parameters
  * @returns Reverse geocoded address
  */
 export const reverseGeocodeHere = async (lat: number, lon: number, apiKey: string, appID: string, queryParameters?: Record<string, string>): Promise<any> => {

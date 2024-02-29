@@ -97,6 +97,7 @@ class NodeGeolocation {
      * Get geocoding data from an address
      * @Important **You must set geocodingOptions object before using this method**
      * @param address Address string to geocode
+     * @param queryParameters Query parameters for the geocoding service (optional, check API documentation for more info)
      * @returns Geocoding data
      */
     public async getGeocoding(address: string, queryParameters?: Record<string, string>): Promise<GeocodingData> {
@@ -158,6 +159,7 @@ class NodeGeolocation {
      * Get reverse geocoding data from a position
      * @Important **You must set geocodingOptions object before using this method**
      * @param pos Position to reverse geocode
+     * @param queryParameters Query parameters for the reverse geocoding service (optional, check API documentation for more info)
      * @returns Reverse geocoding data
      */
     public async getReverseGeocoding(pos: Position, queryParameters?: Record<string, string>): Promise<ReverseGeocodingData> {
